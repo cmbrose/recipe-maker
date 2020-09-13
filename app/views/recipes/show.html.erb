@@ -1,1 +1,41 @@
-Name: <%= recipe.text %>
+<h1>
+  Name: <%= recipe.name %>
+</h1>
+
+<p>
+  Prep Time: <%= recipe.prep_time %>
+</p>
+<p>
+  Cook Time: <%= recipe.cook_time %>
+</p>
+<p>
+  Total Time: <%= recipe.total_time %>
+</p>
+<p>
+  Servings: <%= recipe.servings %>
+</p>
+
+<img src="<%= recipe.preview_url %>" />
+
+<ul>
+<% recipe.ingredients.each do |group| %>
+  <% if !group['name'].nil? && group['name'].length > 0 %>
+    <h3>
+      <%= group['name'] %>
+    </h3>
+  <% end %>
+  <% group['ingredients'].each do |ingr| %>
+  <li>
+    <%= ingr %>
+  </li>
+  <% end %>
+<% end %>
+</ul>
+
+<ol>
+  <% recipe.directions.each do |dir| %>
+    <li>
+      <%= dir %>
+    </li>
+  <% end %>
+</ol>

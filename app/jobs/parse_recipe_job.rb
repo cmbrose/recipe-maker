@@ -10,10 +10,7 @@ class ParseRecipeJob < ApplicationJob
     doc = Nokogiri::HTML.parse(html)
 
     handler = ParseRecipeJob.get_site_handler(domain, doc)
-
-    name = handler.name
-
-    recipe.text = "name: #{name}"
+    handler.populate_recipe(recipe)
     recipe.save
   end
 
@@ -21,7 +18,7 @@ class ParseRecipeJob < ApplicationJob
     def self.get_site_handler(domain, doc)
       case domain
       when 'budgetbytes.com'
-        RecipeSites::BudgetBytes.new(doc)
+        BudgetBytes.new(doc)
       end
     end
 

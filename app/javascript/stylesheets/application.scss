@@ -1,0 +1,14 @@
+@import "~bootstrap/scss/bootstrap";
+
+table.dl-table {
+  padding: 2px;
+}
+
+td.dl-table-dt {
+  font-weight: bold;
+  padding-right: 12px;
+}
+
+td.dl-table-dd {
+  text-align: right;
+}

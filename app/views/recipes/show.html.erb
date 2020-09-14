@@ -1,19 +1,25 @@
 <h1>
-  Name: <%= recipe.name %>
+  <%= recipe.name %>
 </h1>
 
-<p>
-  Prep Time: <%= recipe.prep_time %>
-</p>
-<p>
-  Cook Time: <%= recipe.cook_time %>
-</p>
-<p>
-  Total Time: <%= recipe.total_time %>
-</p>
-<p>
-  Servings: <%= recipe.servings %>
-</p>
+<table "dl-table">
+  <tr>
+    <td class="dl-table-dt">Prep Time</td>
+    <td class="dl-table-dd"><%= recipe.prep_time || "--" %></td>
+  </tr>
+  <tr>
+    <td class="dl-table-dt">Cook Time</td>
+    <td class="dl-table-dd"><%= recipe.cook_time || "--" %></td>
+  </tr>
+  <tr>
+    <td class="dl-table-dt">Total Time</td>
+    <td class="dl-table-dd"><%= recipe.total_time || "--" %></td>
+  </tr>
+  <tr>
+    <td class="dl-table-dt">Servings</td>
+    <td class="dl-table-dd"><%= recipe.servings || "--" %></td>
+  </tr>
+</table>
 
 <img src="<%= recipe.preview_url %>" />
 
@@ -39,3 +45,11 @@
     </li>
   <% end %>
 </ol>
+
+<script>
+source = new EventSource("/recipes/1/live")
+
+source.addEventListener('recipe_update', function(ea) {
+    alert('Data: ' + ea.data)
+}, 1);
+</script>

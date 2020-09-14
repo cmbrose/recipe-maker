@@ -1,12 +1,16 @@
 class Recipe < ApplicationRecord
+  def self.source_kinds(kinds)
+    kinds.each do |kind|       
+      define_method "source_is_#{kind}?" do
+        source_kind == kind
+      end
+    end
+  end
+
+  publishes_updates
+
   serialize :ingredients, JSON
   serialize :directions, JSON
 
-  def fetch!
-    FetchRecipeJob.perform_now(self)
-  end
-
-  def parse! html
-    ParseRecipeJob.perform_now(self, html)
-  end
+  source_kinds ['url']
 end

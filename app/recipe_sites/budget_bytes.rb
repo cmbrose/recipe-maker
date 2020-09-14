@@ -16,18 +16,17 @@ class BudgetBytes
 
   private
     def root
-      @document.xpath("/html/body/div[contains(@class, 'container')]/div[contains(@class, 'wrapper')]/div/article/div[contains(@class, 'wprm-recipe-container')]/div[contains(@class, 'wprm-recipe')]")
+      @document.xpath("/body/div[@class='container']/div[@class='wrapper']/div/article/div[@class='wprm-recipe-container']/div[@class='wprm-recipe']")
     end
 
     def name
-      root.xpath(".//h2[contains(@class, 'wprm-recipe-name')]").text
+      root.xpath("//h2[@class='wprm-recipe-name']").text
     end
 
     def preview_url
-      elem = root.xpath(".//div[contains(@class, 'wprm-recipe-image-container')]/div[contains(@class, 'wprm-recipe-image')]/img")        
-      if elem.nil? || elem.length == 0
-        elem = root.xpath(".//div[contains(@class, 'wprm-container-float-right')]/div[contains(@class, 'wprm-recipe-image')]/img")
-      end
+      elem = root.first_xpath([
+        "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']/img", 
+        "//div[@class='wprm-container-float-right']/div[@class='wprm-recipe-image']/img"])
 
       url = elem.attribute('src')
       if url.nil? || !url.text.starts_with?('http')
@@ -38,7 +37,7 @@ class BudgetBytes
     end
 
     def servings
-      root.xpath(".//div[contains(@class, 'wprm-recipe-servings-container')]/span[contains(@class, 'wprm-recipe-servings-adjustable-text')]").text
+      root.xpath("//div[@class='wprm-recipe-servings-container']/span[@class='wprm-recipe-servings-adjustable-text']").text
     end
 
     def prep_time
@@ -56,17 +55,17 @@ class BudgetBytes
     def ingredients
       groups = []
       
-      group_elems = root.xpath(".//div[contains(@class, 'wprm-recipe-ingredients-container')]/div[contains(@class, 'wprm-recipe-ingredient-group')]")
+      group_elems = root.xpath("//div[@class='wprm-recipe-ingredients-container']/div[@class='wprm-recipe-ingredient-group']")
       group_elems.each do |group_elem|
-        group_name = group_elem.xpath(".//h4").text
+        group_name = group_elem.xpath("//h4").text
 
         ingredients = []
 
-        ingredient_elems = group_elem.xpath('.//ul')
+        ingredient_elems = group_elem.xpath("//ul")        
         ingredient_elems.children.each do |ingredient_elem|
-          name = ingredient_elem.xpath(".//span[contains(@class, 'wprm-recipe-ingredient-name')]").text.strip
-          amount = ingredient_elem.xpath(".//span[contains(@class, 'wprm-recipe-ingredient-amount')]").text&.strip || ""
-          unit = ingredient_elem.xpath(".//span[contains(@class, 'wprm-recipe-ingredient-unit')]").text&.strip || ""
+          name = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-name']").text.strip
+          amount = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-amount']").text&.strip || ""
+          unit = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-unit']").text&.strip || ""
 
           ingredients << "#{name} #{amount} #{unit}".strip
         end
@@ -80,10 +79,9 @@ class BudgetBytes
     def directions
       list = []
       
-      container = root.xpath(".//div[contains(@class, 'wprm-recipe-instructions-container')]/div[contains(@class, 'wprm-recipe-instruction-group')]/ol")
-      if container.nil? || container.length == 0
-        container = root.xpath(".//div[contains(@class, 'wprm-recipe-instructions-container')]/div[contains(@class, 'wprm-recipe-instruction-group')]/ul")
-      end
+      container = root.first_xpath([
+        "//div[@class='wprm-recipe-instructions-container']/div[@class='wprm-recipe-instruction-group']/ol",
+        "//div[@class='wprm-recipe-instructions-container']/div[@class='wprm-recipe-instruction-group']/ul"])
 
       container.children.each do |elem|
         list << elem.text.strip
@@ -93,9 +91,9 @@ class BudgetBytes
     end
 
     def get_time(name)
-      container = root.xpath(".//div[contains(@class, 'wprm-recipe-times-container')]/div[contains(@class, 'wprm-recipe-#{name}-time-container')]")
+      container = root.xpath("//div[@class='wprm-recipe-times-container']/div[@class='wprm-recipe-#{name}-time-container']")
 
-      text = container.xpath(".//span[contains(@class, 'wprm-recipe-#{name}_time')]").map { |elem| elem.text }
+      text = container.xpath("//span[@class='wprm-recipe-#{name}_time']").map { |elem| elem.text }
 
       text.join(" ").strip
     end

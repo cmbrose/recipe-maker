@@ -1,15 +1,18 @@
 require 'uri'
-require 'nokogiri'
 
 class ParseRecipeJob < ApplicationJob
   queue_as :default
 
   def perform(recipe, html)
-    domain = ParseRecipeJob.get_host_without_www(recipe.url)
+    doc = Xml::Document.new(html)
 
-    doc = Nokogiri::HTML.parse(html)
+    if recipe.source_is_url?
+      domain = ParseRecipeJob.get_host_without_www(recipe.source)
+      handler = ParseRecipeJob.get_site_handler(domain, doc)
+    else
+      raise "Cannot handle recipe source: #{recipe.source_kind}"
+    end
 
-    handler = ParseRecipeJob.get_site_handler(domain, doc)
     handler.populate_recipe(recipe)
     recipe.save
   end

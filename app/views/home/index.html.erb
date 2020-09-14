@@ -1,2 +1,12 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Recipes!</h1>
+
+<div class="container p-3 border">
+  <%= form_for :recipe, :url => url_for(:controller => 'recipes', :action => 'create_from_url') do |form| %>
+    <div class="form-group">
+      <%= form.label :url %>
+      <%= form.text_field :url %>
+    </div>
+
+    <%= form.submit class: "btn btn-primary" %>
+  <% end %>
+</div>

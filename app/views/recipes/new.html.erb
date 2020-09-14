@@ -1,10 +1,10 @@
-<%= form_for recipe do |form| %>
-  <p>
-    <%= form.label :url %><br>
-    <%= form.text_field :url %>
-  </p>
+<div class="container p-3 border">
+  <%= form_for recipe do |form| %>
+    <div class="form-group">
+      <%= form.label :url %>
+      <%= form.text_field :url %>
+    </div>
 
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+    <%= form.submit class: "btn btn-primary" %>
+  <% end %>
+</div>

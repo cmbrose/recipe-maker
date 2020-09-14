@@ -4,11 +4,11 @@ class FetchRecipeJob < ApplicationJob
   queue_as :default
 
   def perform(recipe)
-    url = recipe.url
+    url = recipe.source
 
     open(url) { |f|
       html = f.read
-      recipe.parse!(html)
+      ParseRecipeJob.perform_later(recipe, html)
     }
   end
 end

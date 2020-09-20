@@ -2,14 +2,20 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   def self.publishes_updates
-    publisher = LiveModel::Publisher.new
+    publishers = {}
     
     self.after_update do 
-      publisher.publish(self)
+      byebug
+      publisher[self.id].publish(self)
     end
 
-    define_singleton_method :on_update do |&block|
-      publisher.subscribe(&block)
+    define_singleton_method :on_update do |id, &block|
+      byebug
+      if publishers[id].nil?
+        publishers[id] = LiveModel::Publisher.new
+      end
+
+      publishers[id].subscribe(&block)
     end
   end
 end

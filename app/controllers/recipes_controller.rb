@@ -8,23 +8,25 @@ class RecipesController < ApplicationController
 
     response.headers["Content-Type"] = "text/event-stream"
     
-    listener = Recipe.on_update do |recipe|
-      response.stream.write('event: recipe_update')
-      response.stream.write(recipe.to_json)
+    listener = Recipe.on_update(id) do |recipe|
+      response.stream.write("event: recipe_update\n")
+      response.stream.write("data: #{recipe.to_json}\n")
+      response.stream.write("\n")
     end
 
-    begin
-      loop do
-        response.stream.write('event: recipe_update')
-        response.stream.write('data: ' + Recipe.find(1).to_json)
-        sleep 1
-      end
-    rescue IOError
-      # When the client disconnects, we'll get an IOError on write
-    ensure      
-      listener.dispose
-      response.stream.close
-    end
+    # begin
+    #   loop do
+    #     response.stream.write("event: recipe_update\n")
+    #     response.stream.write("data: #{Recipe.find(1).to_json}\n")
+    #     response.stream.write("\n")
+    #     sleep 1
+    #   end
+    # rescue IOError
+    #   # When the client disconnects, we'll get an IOError on write
+    # ensure      
+    #   listener.dispose
+    #   response.stream.close
+    # end
   end
 
   def show

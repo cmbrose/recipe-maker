@@ -13,43 +13,30 @@ class LiveModel::Publisher
   def publish(message)
     @listeners
       .map { |_, listener| listener }
-      .filter { |listener| !listener.disposed }
+      .filter { |listener| !listener.disposed? }
       .each { |listener| listener.receive(message) }
   end
 
   def dispose
     @listeners
       .map { |_, listener| listener }
-      .filter { |listener| !listener.disposed }
+      .filter { |listener| !listener.disposed? }
       .each { |listener| listener.dispose }
   end
 
-  class Listener
-    attr_reader :disposed
-    private
-      attr_writer :disposed
-    public
-
+  class Listener < LiveModel::Disposable
     def initialize(on_message, on_dispose)
+      super()
       @on_message = on_message
-      @on_dispose = on_dispose
-
-      disposed = false
+      self << on_dispose
     end
   
     def receive(message)
-      if disposed
+      if disposed?
         raise "Disposed listener cannot receive"
       end
 
       @on_message.call(message)
-    end
-  
-    def dispose
-      if !disposed
-        @on_dispose.call
-      end
-      disposed = true
     end
   end
 end

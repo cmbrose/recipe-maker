@@ -4,29 +4,8 @@ class RecipesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def live
-    id = params[:id]
-
-    response.headers["Content-Type"] = "text/event-stream"
-    
-    listener = Recipe.on_update(id) do |recipe|
-      response.stream.write("event: recipe_update\n")
-      response.stream.write("data: #{recipe.to_json}\n")
-      response.stream.write("\n")
-    end
-
-    # begin
-    #   loop do
-    #     response.stream.write("event: recipe_update\n")
-    #     response.stream.write("data: #{Recipe.find(1).to_json}\n")
-    #     response.stream.write("\n")
-    #     sleep 1
-    #   end
-    # rescue IOError
-    #   # When the client disconnects, we'll get an IOError on write
-    # ensure      
-    #   listener.dispose
-    #   response.stream.close
-    # end
+    id = params[:id].to_i
+    LiveModel::LiveModel.stream_updates 'recipe_update', :recipe, id, response
   end
 
   def show

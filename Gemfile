@@ -25,6 +25,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootstrap-sass', '~> 3.3.7'
 
 gem 'jquery-rails'
+gem 'react-rails'
 
 # This is to fix a streaming issue in Live
 gem 'rack', '<2.2'

@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+
+@media print {
+  @page {
+    margin: 0;
+  }
+  body {
+    margin: 1.6cm;
+  }
+}

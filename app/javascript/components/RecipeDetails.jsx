@@ -9,48 +9,64 @@ class RecipeDetails extends React.Component {
   render () {  
     return (
       <div className="recipe-card">
-        <h1 className="recipe-card-name">
-          { this.props.recipe.name }
-        </h1>
+        <div className="recipe-card-name">
+          { this.renderName() }
+        </div>
+        
+        <div className="recipe-card-left">
+          { this.renderIngredients() }
+        </div>
 
-        { this.renderInfoTable() }
+        <div className="recipe-card-right">
+          { this.renderDirections() }
+        </div>
 
-        <img className="recipe-card-preview" src={ this.props.recipe.preview_url } />
-
-        { this.renderIngredients() }
-
-        { this.renderDirections() }
+        { this.renderPreviewImageHidden() }
       </div>
     );
   }
 
-  renderInfoTable() {
+  componentDidMount() {
+    this.allocateAndShowPreviewImage();
+  }
+
+  renderName() {
+    return (
+      <h1>{ this.props.recipe.name }</h1>
+    );
+  }
+
+  renderTimes() {
     var recipe = this.props.recipe;
 
-    var items = [
+    var times = [
       { name: 'Prep Time', value: recipe.prep_time, },
       { name: 'Cook Time', value: recipe.cook_time, },
       { name: 'Total Time', value: recipe.total_time, },
-      { name: 'Servings', value: recipe.servings, },
-    ].map((item, idx) => {
+    ].map((item) => {
       if (item.value) {
-        return (
-          <tr key={idx}>
-            <td key={idx + '_name'} className="dl-table-dt">{ item.name }</td>
-            <td key={idx + '_value'} className="dl-table-dd">{ item.value }</td>
-          </tr>
-        );
+        return item.name + ": " + item.value;
       } else {
         return undefined;
       }
-    });
+    }).filter((item) => !!item);
 
     return (
-      <table className="recipe-card-info-table dl-table">
-        <tbody>
-          { items }
-        </tbody>
-      </table>
+      <div className="recipe-card-times">
+        { times.join(' - ') }
+      </div>
+    );
+  }
+
+  renderServings() {
+    if (!this.props.recipe.servings) {
+      return undefined;
+    }
+
+    return (
+      <div className="recipe-card-servings">
+        (for {this.props.recipe.servings} servings)
+      </div>
     );
   }
 
@@ -74,9 +90,13 @@ class RecipeDetails extends React.Component {
     });
 
     return (
-      <ul className="recipe-card-ingredients">
-        { groups }
-      </ul>
+      <div className="recipe-card-ingredients">
+        <h3>Ingredients</h3>
+        { this.renderServings() }
+        <ul>
+          { groups }
+        </ul>
+      </div>
     );
   }
 
@@ -88,10 +108,35 @@ class RecipeDetails extends React.Component {
     ));
 
     return (
-      <ol className="recipe-card-directions">
-        { items }
-      </ol>
+      <div className="recipe-card-directions">
+        <h3>Directions</h3>
+        { this.renderTimes() }
+        <ol>
+          { items }
+        </ol>
+      </div>
     );
+  }
+
+  renderPreviewImageHidden() {
+    return (
+      <img className="recipe-card-preview" hidden src={ this.props.recipe.preview_url } />
+    )
+  }
+
+  allocateAndShowPreviewImage() {
+    var image = $('.recipe-card-preview');
+
+    var leftPane = $('.recipe-card-left');
+    var rightPane = $('.recipe-card-right');
+
+    if (leftPane.height() <= rightPane.height()) {
+      leftPane.prepend(image)
+    } else {
+      rightPane.prepend(image)
+    }
+
+    image.removeAttr('hidden');
   }
 }
 

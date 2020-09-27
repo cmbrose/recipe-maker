@@ -22,7 +22,7 @@ class RecipesController < ApplicationController
     url = params[:recipe][:url]
 
     recipe = Recipe.create(source: url, source_kind: "url")
-    CreateRecipeJob.perform_later(recipe)
+    CreateRecipeJob.perform_now(recipe, false)
 
     redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
   end

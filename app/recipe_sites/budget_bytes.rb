@@ -28,12 +28,18 @@ class BudgetBytes
         "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']/img", 
         "//div[@class='wprm-container-float-right']/div[@class='wprm-recipe-image']/img"])
 
-      url = elem.attribute('src')
-      if url.nil? || !url.text.starts_with?('http')
-        url = elem.attribute('data-lazy-src')
+      srcset = elem.attribute('data-lazy-srcset')
+      if !srcset.nil?
+        # Format is {url-1} {size-1}, {url-2} {size-2}, ... and last one is the biggest
+        url = srcset.text.split(',').last.split(' ').first
+      else
+        url = elem.attribute('src')&.text
+        if url.nil? || !url.starts_with?('http')
+          url = elem.attribute('data-lazy-src').text
+        end
       end
 
-      url.text
+      url
     end
 
     def servings
@@ -67,7 +73,7 @@ class BudgetBytes
           amount = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-amount']").text&.strip || ""
           unit = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-unit']").text&.strip || ""
 
-          ingredients << "#{name} #{amount} #{unit}".strip
+          ingredients << "#{name} #{amount} #{unit}".strip.capitalize
         end
 
         groups << { 'name' => group_name, 'ingredients' => ingredients }

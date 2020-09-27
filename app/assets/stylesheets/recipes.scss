@@ -1,3 +1,47 @@
 // Place all the styles related to the Recipes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.recipe-card {
+  width: 40%;
+  margin: 0 auto;
+
+  ul,
+  ol {
+    padding-left: 18px;
+
+    li {
+      padding-top: 9px;
+    }
+  }
+}
+
+.recipe-card > div {
+  padding: 12px;
+}
+
+.recipe-card-left {
+  width: 40%;
+  float: left;
+}
+
+.recipe-card-right {
+  width: 60%;
+  float: right;
+}
+
+.recipe-card-preview {
+  width: 100%;
+  border: solid 4px gray;
+}
+
+.recipe-card-name {
+  border: solid 6px #1e90ff;
+  margin: 9px;
+}
+
+.recipe-card-servings,
+.recipe-card-times {
+  font-style: italic;
+  font-size: medium;
+}

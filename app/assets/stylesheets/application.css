@@ -16,9 +16,13 @@
 
 @media print {
   @page {
+    size: A4;
     margin: 0;
   }
   body {
-    margin: 1.6cm;
+    padding: 12mm 12mm 32mm 12mm;
+  }
+  .recipe-card {
+    width: 100%;
   }
 }

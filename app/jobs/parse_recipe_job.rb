@@ -3,7 +3,7 @@ require 'uri'
 class ParseRecipeJob < ApplicationJob
   queue_as :default
 
-  def perform(recipe, html)
+  def perform(recipe, html, async=true)
     doc = Xml::Document.new(html)
 
     if recipe.source_is_url?

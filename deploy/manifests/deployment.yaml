@@ -9,15 +9,15 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: recipe
+      app: recipes
   template:
     metadata:
       labels:
-        app: recipe
+        app: recipes
         env: dev
     spec:
       containers:
-        - name: recipe
+        - name: recipes
           image: cmbrose.azurecr.io/recipes
           ports:
             - name: http

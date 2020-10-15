@@ -7,8 +7,9 @@ jobs:
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v2
-        repository: cmbrose/actions
-        path: .actions
+        with:
+          repository: cmbrose/actions
+          path: .actions
       - name: Hello world action step
         id: hello
         uses: ./.actions/hello-world-action

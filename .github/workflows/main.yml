@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: cmbrose/hello-world-action@v1
+        uses: cmbrose/actions/hello-world-action@v1
         with:
           who-to-greet: "cmbrose"
       # Use the output from the `hello` step

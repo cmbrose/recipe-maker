@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: recipes-svc
+spec:
+  selector:
+    app: recipes
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000

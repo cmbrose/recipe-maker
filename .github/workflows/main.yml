@@ -1,20 +1,48 @@
-on: [push]
+name: Deploy to AKS Cluster
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  hello_world_job:
+  build:
     runs-on: ubuntu-latest
-    name: A job to say hello
     steps:
-      - name: Checkout Actions
-        uses: actions/checkout@v2
+      - uses: actions/checkout@master
+
+      - uses: Azure/docker-login@v1
         with:
-          repository: cmbrose/actions
-          path: .actions
-      - name: Hello world action step
-        id: hello
-        uses: ./.actions/hello-world-action
+          login-server: cmbrose.azurecr.io
+          username: ${{ secrets.ACR_ADMIN_USERNAME }}
+          password: ${{ secrets.ACR_ADMIN_PASSWORD }}
+
+      - run: |
+          docker build . -t cmbrose.azurecr.io/k8recipes:${{ github.sha }}
+          docker push cmbrose.azurecr.io/k8recipes:${{ github.sha }}
+
+      # Set the target AKS cluster.
+      - uses: Azure/aks-set-context@v1
         with:
-          who-to-greet: "cmbrose"
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          creds: "${{ secrets.AZURE_CREDENTIALS }}"
+          cluster-name: recipes-dev
+          resource-group: recipes-svc-dev
+
+      - uses: Azure/k8s-create-secret@v1
+        with:
+          container-registry-url: cmbrose.azurecr.io
+          container-registry-username: ${{ secrets.ACR_ADMIN_USERNAME }}
+          container-registry-password: ${{ secrets.ACR_ADMIN_PASSWORD }}
+          secret-name: k8s-secret
+
+      - uses: Azure/k8s-deploy@v1
+        with:
+          manifests: |
+            deploy/manifests/deployment.yaml
+            deploy/manifests/service.yaml
+          images: |
+            cloudlifeacr.azurecr.io/k8recipes:${{ github.sha }}
+          imagepullsecrets: |
+            k8s-secret

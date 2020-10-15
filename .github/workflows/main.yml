@@ -43,6 +43,6 @@ jobs:
             deploy/manifests/deployment.yaml
             deploy/manifests/service.yaml
           images: |
-            cloudlifeacr.azurecr.io/recipes:${{ github.sha }}
+            cmbrose.azurecr.io/recipes:${{ github.sha }}
           imagepullsecrets: |
             k8s-secret

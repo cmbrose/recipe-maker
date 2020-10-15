@@ -1,8 +1,6 @@
 class HomeController < ApplicationController
   def index
-  end
-
-  def new_from_url
-    
+    recipes = Recipe.last(10)
+    render :locals => { recipes: recipes }
   end
 end

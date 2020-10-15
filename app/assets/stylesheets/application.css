@@ -26,3 +26,12 @@
     width: 100%;
   }
 }
+
+.v-centered {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.strong {
+  font-weight: bold;
+}

@@ -2,3 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+.recipe-list-item {
+  padding: 6px 0;
+
+  &:hover {
+    background-color: lightblue;
+    cursor: pointer;
+  }
+}
+
+form {
+  width: 100%;
+}

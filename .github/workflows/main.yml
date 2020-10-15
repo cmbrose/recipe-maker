@@ -20,8 +20,8 @@ jobs:
           password: ${{ secrets.ACR_ADMIN_PASSWORD }}
 
       - run: |
-          docker build . -t cmbrose.azurecr.io/k8recipes:${{ github.sha }}
-          docker push cmbrose.azurecr.io/k8recipes:${{ github.sha }}
+          docker build . -t cmbrose.azurecr.io/recipes:${{ github.sha }}
+          docker push cmbrose.azurecr.io/recipes:${{ github.sha }}
 
       # Set the target AKS cluster.
       - uses: Azure/aks-set-context@v1
@@ -43,6 +43,6 @@ jobs:
             deploy/manifests/deployment.yaml
             deploy/manifests/service.yaml
           images: |
-            cloudlifeacr.azurecr.io/k8recipes:${{ github.sha }}
+            cloudlifeacr.azurecr.io/recipes:${{ github.sha }}
           imagepullsecrets: |
             k8s-secret

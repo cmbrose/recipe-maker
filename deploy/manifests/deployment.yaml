@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: recipe
-          image: cloudlifeacr.azurecr.io/k8sflask
+          image: cmbrose.azurecr.io/recipes
           ports:
             - name: http
               containerPort: 3000

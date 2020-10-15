@@ -1,6 +1,6 @@
 FROM ruby:2.7
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn && yarn install
 RUN mkdir /app
 WORKDIR /app
 COPY Gemfile /app/Gemfile

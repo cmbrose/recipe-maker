@@ -44,6 +44,13 @@ jobs:
           arguments: --from-literal=username=${{ secrets.DEV_DB_ADMIN_USERNAME }} --from-literal=password=${{ secrets.DEV_DB_ADMIN_PASSWORD }}
           secret-name: db-credentials
 
+      - uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: "default"
+          secret-type: "generic"
+          arguments: --from-literal=secret-key-base=${{ secrets.SECRET_KEY_BASE }}
+          secret-name: rails-secrets
+
       - uses: Azure/k8s-deploy@v1
         with:
           manifests: |

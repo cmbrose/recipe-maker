@@ -4,7 +4,7 @@ metadata:
   name: recipes-svc
 spec:
   selector:
-    app: recipes
+    app: recipe
   type: LoadBalancer
   ports:
     - name: http

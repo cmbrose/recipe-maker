@@ -1,6 +1,6 @@
 FROM ruby:2.7
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client yarn curl
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client curl
 
 ENV NODE_VERSION=12.16.3
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
@@ -9,8 +9,11 @@ RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN npm install yarn -g
+
 RUN node --version
 RUN npm --version
+RUN yarn --version
 
 RUN mkdir /app
 WORKDIR /app

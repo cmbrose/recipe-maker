@@ -37,6 +37,13 @@ jobs:
           container-registry-password: ${{ secrets.ACR_ADMIN_PASSWORD }}
           secret-name: k8s-secret
 
+      - uses: Azure/k8s-create-secret@v1
+          with:
+            namespace: 'default'
+            secret-type: 'generic'
+            arguments:  --from-literal=username=${{ secrets.DEV_DB_ADMIN_USERNAME }} --from-literal=password=${{ secrets.DEV_DB_ADMIN_PASSWORD }}
+            secret-name: db-credentials
+
       - uses: Azure/k8s-deploy@v1
         with:
           manifests: |

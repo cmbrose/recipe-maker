@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_09_13_204949) do
 
-  create_table "recipes", force: :cascade do |t|
+  create_table "recipes", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"

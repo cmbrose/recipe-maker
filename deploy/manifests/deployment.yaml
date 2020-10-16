@@ -39,5 +39,5 @@ spec:
             - name: SECRET_KEY_BASE
               valueFrom:
                 secretKeyRef:
-                  name: secret-key-base
-                  key: rails-secrets
+                  name: rails-secrets
+                  key: secret-key-base

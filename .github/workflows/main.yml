@@ -48,7 +48,7 @@ jobs:
         with:
           namespace: "default"
           secret-type: "generic"
-          arguments: --from-literal=secret-key-base=${{ secrets.SECRET_KEY_BASE }}
+          arguments: --from-literal=secret-key-base=${{ secrets.RAILS_SECRET_KEY_BASE }}
           secret-name: rails-secrets
 
       - uses: Azure/k8s-deploy@v1

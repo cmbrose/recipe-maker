@@ -10,7 +10,7 @@ development:
   database: recipes
   username: recipes@recipes-dev
   password:
-  sslca: ~/workspace/recipe-maker/BaltimoreCyberTrustRoot.crt.pem
+  sslca: ~/workspace/recipe-maker/recipes/BaltimoreCyberTrustRoot.crt.pem
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

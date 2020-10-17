@@ -30,4 +30,4 @@ production:
   database: recipes
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  sslca: /app/BaltimoreCyberTrustRoot.crt.pem
+  sslca: <%= ENV['DB_CERT_PATH'] %>

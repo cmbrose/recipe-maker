@@ -51,10 +51,10 @@ jobs:
           arguments: --from-literal=secret-key-base=${{ secrets.RAILS_SECRET_KEY_BASE }}
           secret-name: rails-secrets
 
-      - name: Set up Ruby 2.7.2
+      - name: Set up Ruby 2.7
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.7.2
+          ruby-version: 2.7
 
       - name: Migrate DB
         env:

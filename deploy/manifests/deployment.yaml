@@ -24,6 +24,8 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
+            - name: DB_CERT_PATH
+              value: /app/BaltimoreCyberTrustRoot.crt.pem
             - name: RAILS_ENV
               value: production
             - name: DB_USERNAME

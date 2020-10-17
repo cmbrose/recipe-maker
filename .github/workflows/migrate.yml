@@ -1,0 +1,23 @@
+name: Migrate Dev DB
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby 2.7.2
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+      - name: Migrate DB
+        env:
+          DB_USERNAME: ${{ secrets.DEV_DB_ADMIN_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DEV_DB_ADMIN_PASSWORD }}
+          RAILS_ENV: production
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails db:create
+          bundle exec rails db:migrate

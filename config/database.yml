@@ -1,6 +1,8 @@
 default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
+  encoding: utf8mb4
+  collation: utf8mb4_bin
 
 development:
   <<: *default
@@ -28,4 +30,4 @@ production:
   database: recipes
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  sslca: /app/BaltimoreCyberTrustRoot.crt.pem
+  sslca: ~/workspace/recipe-maker/recipes/BaltimoreCyberTrustRoot.crt.pem

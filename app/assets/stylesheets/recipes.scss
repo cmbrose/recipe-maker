@@ -31,8 +31,9 @@
 }
 
 .recipe-card-preview {
-  width: 100%;
+  max-width: 100%;
   border: solid 4px gray;
+  max-height: 550px;
 }
 
 .recipe-card-name {
@@ -44,4 +45,9 @@
 .recipe-card-times {
   font-style: italic;
   font-size: medium;
+}
+
+.recipe-card-ingredient-group-name {
+  margin-top: 12px;
+  margin-bottom: 0px;
 }

@@ -74,7 +74,7 @@ class RecipeDetails extends React.Component {
     var groups = (this.props.recipe.ingredients || []).map((group, idx) => {
       var key = idx + '_group';
 
-      var header = group.name ? (<h3>{ group.name }</h3>) : undefined;
+      var header = group.name ? (<h5 className="recipe-card-ingredient-group-name">{ group.name }</h5>) : undefined;
       var items = group.ingredients.map((ingredient, idx) => (
         <li key={key + '_' + idx + '_item'}>
           { ingredient }

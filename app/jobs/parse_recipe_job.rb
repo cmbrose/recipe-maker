@@ -22,6 +22,8 @@ class ParseRecipeJob < ApplicationJob
       case domain
       when 'budgetbytes.com'
         BudgetBytes.new(doc)
+      when 'skinnytaste.com'
+        SkinnyTaste.new(doc)
       end
     end
 

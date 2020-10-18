@@ -1,0 +1,10 @@
+<% is_this_page = request.original_fullpath == href %>
+
+<li class="nav-item <%= is_this_page ? 'active' : '' %>">
+  <a class="nav-link" href="<%= href %>">
+    <%= label %>
+    <% if is_this_page %>
+      <span class="sr-only"> (current)</span>
+    <% end %>
+  </a>
+</li>

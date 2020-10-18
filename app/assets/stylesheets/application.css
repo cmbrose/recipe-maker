@@ -25,6 +25,10 @@
   .recipe-card {
     width: 100%;
   }
+
+  .navbar {
+    display: none;
+  }
 }
 
 .v-centered {
@@ -34,4 +38,9 @@
 
 .strong {
   font-weight: bold;
+}
+
+.nav-item a:hover {
+  background-color: gray;
+  text-decoration: underline;
 }

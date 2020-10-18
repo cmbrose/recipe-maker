@@ -16,7 +16,8 @@ class Xml::Document
     end
 
     def xpath(path, *args)
-      path = path.gsub(/@([a-z]+)=['"]([^'"]+)['"]/, 'contains(@\1, "\2")')
+      # To match whole word, pad with spaces
+      path = path.gsub(/@([a-z]+)=['"]([^'"]+)['"]/, 'contains(concat(" ", @\1, " "), " \2 ")')
       
       if path.first == '/'
         path = ".#{path}"

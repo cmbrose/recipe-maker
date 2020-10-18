@@ -15,7 +15,7 @@ class RecipeListItem extends React.Component {
            { this.renderImagePreview() }
         </div>
 
-        <div className="v-centered col-3">
+        <div className="v-centered col-5">
           {this.props.recipe.name || "Unnamed recipe" }
         </div>
       </div>

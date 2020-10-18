@@ -27,7 +27,7 @@ jobs:
       - uses: Azure/aks-set-context@v1
         with:
           creds: "${{ secrets.AZURE_CREDENTIALS }}"
-          cluster-name: recipes-dev
+          cluster-name: recipes-dev-aks
           resource-group: recipes-svc-dev
 
       - uses: Azure/k8s-create-secret@v1

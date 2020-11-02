@@ -11,11 +11,11 @@ class RecipeListItem extends React.Component {
       <div 
       className="row border recipe-list-item"
         onClick={this.redirectToRecipe.bind(this)}>
-        <div className="col-1">
+        <div className="col-sm-2 col-md-1">
            { this.renderImagePreview() }
         </div>
 
-        <div className="v-centered col-5">
+        <div className="v-centered col-sm-10 col-md-11">
           {this.props.recipe.name || "Unnamed recipe" }
         </div>
       </div>

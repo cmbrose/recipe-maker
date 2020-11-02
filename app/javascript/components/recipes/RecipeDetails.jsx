@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import RecipeDirectionsList from './RecipeDirectionsList'
+
 class RecipeDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -101,19 +103,15 @@ class RecipeDetails extends React.Component {
   }
 
   renderDirections() {
-    var items = (this.props.recipe.directions || []).map((direction, idx) => (
-      <li key={idx}>
-        { direction }
-      </li>
-    ));
-
     return (
       <div className="recipe-card-directions">
         <h3>Directions</h3>
         { this.renderTimes() }
-        <ol>
-          { items }
-        </ol>
+        <RecipeDirectionsList 
+          directions={this.props.recipe.directions || []}
+          editable={this.props.editable}
+          onUpdateValue={(idx, value) => {/* TODO */}}
+        />
       </div>
     );
   }
@@ -141,11 +139,15 @@ class RecipeDetails extends React.Component {
 }
 
 RecipeDetails.defaultProps = {
-  recipe: {}
+  recipe: {},
+  onUpdate: () => {},
+  editable: false,
 }
 
 RecipeDetails.propTypes = {
-  recipe: PropTypes.object
+  recipe: PropTypes.object,
+  onUpdate: PropTypes.func,
+  editable: PropTypes.bool,
 }
 
 export default RecipeDetails

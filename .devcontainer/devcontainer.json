@@ -1,10 +1,8 @@
 {
     "name": "Recipe Maker",
 
-    "build": {
-		"dockerfile": "../Dockerfile",
-		"args": { }
-	},
+    "dockerFile": "Dockerfile",
+	"context": "./../",
 
     "settings": { 
 		"terminal.integrated.shell.linux": null
@@ -13,5 +11,9 @@
     "postCreateCommand": "sudo service mysql start",
 
     "forwardPorts": [3000],
-    "appPort": [ 3000 ]
+    "appPort": [ 3000 ],
+
+    "mounts": [
+		"source=mysql,target=/var/lib/mysql/,type=volume"
+	]
 }

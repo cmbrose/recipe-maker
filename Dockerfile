@@ -1,6 +1,6 @@
 FROM ruby:2.7
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client curl
+RUN apt-get update -qq && apt-get install -y nodejs curl
 
 ENV NODE_VERSION=12.16.3
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash

@@ -1,0 +1,5 @@
+apt install mariadb-server
+
+rails db:create
+rails db:migrate
+rails assets:precompile

@@ -36,8 +36,6 @@ RUN apt -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN find /var/lib/mysql -type f -exec touch {} \; && service mysql start
-
 # ¯\_(ツ)_/¯
 RUN bundle exec gem uninstall mysql2 && bundle install
 

@@ -1,5 +1,5 @@
 {
-    "name": "Recipe Maker",
+    "name": "cmbrose/recipe-maker",
 
     "dockerFile": "../Dockerfile",
 	"context": "./..",
@@ -8,12 +8,6 @@
 		"terminal.integrated.shell.linux": "/bin/bash",
     },
     
-    "postCreateCommand": "sudo service mysql start",
-
     "forwardPorts": [3000],
-    "appPort": [ 3000 ],
-
-    "mounts": [
-		"source=mysql,target=/var/lib/mysql/,type=volume"
-	]
+    "appPort": [ 3000 ]
 }

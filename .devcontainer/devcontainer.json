@@ -1,8 +1,8 @@
 {
     "name": "Recipe Maker",
 
-    "dockerFile": "Dockerfile",
-	"context": "./../",
+    "dockerFile": "../Dockerfile",
+	"context": "root",
 
     "settings": { 
 		"terminal.integrated.shell.linux": null

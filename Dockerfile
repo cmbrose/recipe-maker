@@ -38,6 +38,9 @@ RUN apt -y autoremove && \
 
 RUN find /var/lib/mysql -type f -exec touch {} \; && service mysql start
 
+# ¯\_(ツ)_/¯
+RUN bundle exec gem uninstall mysql2 && bundle install
+
 RUN rails assets:precompile
 
 # Add a script to be executed every time the container starts.

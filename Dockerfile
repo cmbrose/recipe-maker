@@ -2,6 +2,11 @@ FROM ruby:2.7
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 
+# Cleanup apt cruft
+RUN apt -y autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 ENV NODE_VERSION=12.16.3
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
@@ -24,11 +29,6 @@ RUN bundle install
 COPY . /app
 
 RUN yarn install
-
-# Cleanup apt cruft
-RUN apt -y autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN rails assets:precompile
 

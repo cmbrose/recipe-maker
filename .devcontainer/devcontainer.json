@@ -8,5 +8,8 @@
   "appPort": [
     3000
   ],
-  "postCreateCommand": "rails db:create && rails db:migrate"
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash",
+  },
+  "postCreateCommand": "./post-create-command",
 }

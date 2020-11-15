@@ -14,6 +14,5 @@
   "postCreateCommand": "./post-create-command",
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
-  "containerUser": "codespace"
+  ]
 }

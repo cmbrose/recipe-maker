@@ -1,6 +1,6 @@
 FROM ruby:2.7
 
-RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo
+RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 
 ENV NODE_VERSION=12.16.3
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash

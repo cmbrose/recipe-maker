@@ -2,9 +2,6 @@
   "name": "cmbrose/recipe-maker",
   "dockerFile": "../Dockerfile",
   "context": "./..",
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash",
-  },
   "forwardPorts": [
     3000
   ],

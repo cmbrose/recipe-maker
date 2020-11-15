@@ -25,19 +25,10 @@ COPY . /app
 
 RUN yarn install
 
-RUN curl -L -O https://repo.percona.com/apt/percona-release_latest.stretch_all.deb && \
-    dpkg -i percona-release_latest.stretch_all.deb && \
-    rm percona-release_latest.stretch_all.deb && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y install libperconaserverclient20 libperconaserverclient20-dev percona-server-server-5.7 percona-server-common-5.7 percona-server-client-5.7
-
 # Cleanup apt cruft
 RUN apt -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# ¯\_(ツ)_/¯
-RUN bundle exec gem uninstall mysql2 && bundle install
 
 RUN rails assets:precompile
 

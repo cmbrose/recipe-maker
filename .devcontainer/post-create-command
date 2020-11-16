@@ -1,4 +1,5 @@
-apt install mariadb-server
+apt install -y mariadb-server
+service mysql start
 
 rails db:create
 rails db:migrate

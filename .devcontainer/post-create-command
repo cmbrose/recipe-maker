@@ -1,3 +1,5 @@
+cp $(dirname $0)/.bashrc ~/.bashrc
+
 apt install -y mariadb-server
 service mysql start
 

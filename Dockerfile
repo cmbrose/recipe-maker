@@ -1,6 +1,6 @@
-ARG USER=root
-
 FROM ruby:2.7
+
+ARG USER=root
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 

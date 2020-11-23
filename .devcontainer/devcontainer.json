@@ -2,9 +2,12 @@
   "name": "cmbrose/recipe-maker",  
   "build": { 
     "dockerfile": "../Dockerfile",
-    "context": "./.."
+    "context": "./..",
+    "args": {
+     "USER": "codespace" 
+    }
   },
-  "remoteUser": "codespace",
+  "containerUser": "codespace",
   "forwardPorts": [
     3000
   ],

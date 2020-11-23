@@ -1,9 +1,4 @@
-ARG user=root
-
 FROM ruby:2.7
-
-RUN id -u $user &>/dev/null || useradd -ou 0 -g 0 $user
-USER $user
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 

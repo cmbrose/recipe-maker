@@ -2,6 +2,9 @@ ARG user=root
 
 FROM ruby:2.7
 
+RUN id -u $user &>/dev/null || useradd -ou 0 -g 0 $user
+USER $user
+
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 
 # Cleanup apt cruft
@@ -39,8 +42,6 @@ COPY deploy/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
-
-USER $user
 
 # Start the main process.
 CMD ["rails", "server", "-b", "0.0.0.0"]

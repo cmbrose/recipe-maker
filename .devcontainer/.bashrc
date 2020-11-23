@@ -121,12 +121,12 @@ fi
 
 PS1='\[\e]0;\u: \w\a\]\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$ '
 
-export PATH=$HOME/.dotnet:/opt/oryx:/opt/nodejs/lts/bin:/opt/python/latest/bin:/opt/yarn/stable/bin:/home/codespace/.dotnet/tools:$HOME/.npm-global/bin:$PATH
-export NVM_DIR="/home/codespace/.nvm"
+export PATH=$HOME/.dotnet:/opt/oryx:/opt/nodejs/lts/bin:/opt/python/latest/bin:/opt/yarn/stable/bin:/home/cmbrose/.dotnet/tools:$HOME/.npm-global/bin:$PATH
+export NVM_DIR="/home/cmbrose/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-if [ "$(stat -c '%U' $NVM_DIR)" != "codespace" ]; then
-    sudo chown -R codespace:root $NVM_DIR
+if [ "$(stat -c '%U' $NVM_DIR)" != "cmbrose" ]; then
+    sudo chown -R cmbrose:root $NVM_DIR
 fi
 export NVS_HOME="$HOME/.nvs"
 [ -s "$NVS_HOME/nvs.sh" ] && . "$NVS_HOME/nvs.sh"

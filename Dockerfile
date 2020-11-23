@@ -1,5 +1,9 @@
 FROM ruby:2.7
 
+ARG USER=root
+RUN (id -u $USER && echo "User $USER already exists") || (echo "Adding user $USER" && useradd -m -g root -G sudo -s /bin/bash $USER)
+USER $USER
+
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 
 # Cleanup apt cruft

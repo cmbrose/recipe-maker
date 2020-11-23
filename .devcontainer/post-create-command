@@ -1,7 +1,7 @@
 cp $(dirname $0)/.bashrc ~/.bashrc
 
-apt install -y mariadb-server
-service mysql start
+sudo apt install -y mariadb-server
+sudo service mysql start
 
 rails db:create
 rails db:migrate

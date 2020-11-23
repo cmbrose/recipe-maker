@@ -40,7 +40,12 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-RUN (id -u $USER && echo "User $USER already exists") || (echo "Adding user $USER" && useradd -m -g root -G sudo -s /bin/bash $USER)
+RUN (id -u $USER && \
+        echo "User $USER already exists") || \
+    (echo "Adding user $USER" && \
+        useradd -m -g root -G sudo -s /bin/bash $USER && \
+        echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/suoders.d/$USER)
+        
 USER $USER
 
 # Start the main process.

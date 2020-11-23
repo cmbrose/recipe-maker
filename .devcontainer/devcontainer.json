@@ -4,10 +4,10 @@
     "dockerfile": "../Dockerfile",
     "context": "./..",
     "args": {
-     "USER": "codespace" 
+     "USER": "cmbrose" 
     }
   },
-  "containerUser": "codespace",
+  "containerUser": "cmbrose",
   "forwardPorts": [
     3000
   ],

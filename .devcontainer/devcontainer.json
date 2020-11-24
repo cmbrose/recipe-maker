@@ -7,7 +7,7 @@
      "USER": "root" 
     }
   },
-  "containerUser": "cmbrose",
+  "containerUser": "root",
   "forwardPorts": [
     3000
   ],

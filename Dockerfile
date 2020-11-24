@@ -45,7 +45,7 @@ RUN (id -u $USER && \
     (echo "Adding user $USER" && \
         useradd -m -g root -G sudo -s /bin/bash $USER && \
         mkdir /etc/sudoers.d && \
-        echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/suoders.d/$USER)
+        echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER)
         
 USER $USER
 

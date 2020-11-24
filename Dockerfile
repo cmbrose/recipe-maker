@@ -2,6 +2,14 @@ FROM ruby:2.7
 
 ARG USER=root
 
+RUN (id -u $USER && \
+        echo "User $USER already exists") || \
+    (echo "Adding user $USER" && \
+        useradd -m -g root -G sudo -s /bin/bash $USER && \
+        echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER)
+        
+USER $USER
+
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release
 
 # Cleanup apt cruft
@@ -39,14 +47,6 @@ COPY deploy/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
-
-RUN (id -u $USER && \
-        echo "User $USER already exists") || \
-    (echo "Adding user $USER" && \
-        useradd -m -g root -G sudo -s /bin/bash $USER && \
-        echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER)
-        
-USER $USER
 
 # Start the main process.
 CMD ["rails", "server", "-b", "0.0.0.0"]

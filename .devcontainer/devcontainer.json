@@ -4,7 +4,7 @@
     "dockerfile": "../Dockerfile",
     "context": "./..",
     "args": {
-     "USER": "cmbrose" 
+     "USER": "root" 
     }
   },
   "containerUser": "cmbrose",

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 import AutoHeightTextArea from "../AutoHeightTextArea";
+import TextInput from "../TextInput";
 
 const RecipeIngredientsList = ({
   ingredients,
@@ -13,15 +14,15 @@ const RecipeIngredientsList = ({
 
     var header = group.name
       ? renderHeader(group.name, editable, (value) => {
-          group.name = value;
-          onUpdate(groupIdx, group);
-        })
+        group.name = value;
+        onUpdate(ingredients);
+      })
       : undefined;
 
     var items = group.ingredients.map((ingredient, ingrIdx) => {
       var element = renderIngredient(ingredient, editable, (value) => {
         group.ingredients[ingrIdx] = value;
-        onUpdate(groupIdx, group);
+        onUpdate(ingredients);
       });
 
       return <li key={key + "_" + ingrIdx + "_item"}>{element}</li>;
@@ -40,18 +41,12 @@ const RecipeIngredientsList = ({
 
 const renderHeader = (header, editable, onUpdate) => {
   if (editable) {
-    const [currentValue, setCurrentValue] = useState(header);
-
     return (
-      <input
-        type="text"
-        className="recipe-ingredient-group-edit-input form-control"
-        value={currentValue}
-        onChange={(e) => {
-          setCurrentValue(e.target.value);
-          onUpdate(e.target.value);
-        }}
-      ></input>
+      <TextInput
+        classes={["recipe-ingredient-group-edit-input"]}
+        value={header}
+        onUpdate={onUpdate}
+      />
     );
   } else {
     return <h5 className="recipe-card-ingredient-group-name">{header}</h5>;
@@ -62,9 +57,9 @@ const renderIngredient = (item, editable, onUpdate) => {
   if (editable) {
     return (
       <AutoHeightTextArea
-        className="recipe-ingredient-item-edit-area"
-        initialValue={item}
-        onChange={onUpdate}
+        classes={["recipe-ingredient-item-edit-area"]}
+        value={item}
+        onUpdate={onUpdate}
       />
     );
   } else {

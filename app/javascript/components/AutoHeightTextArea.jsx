@@ -1,27 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 const AutoHeightTextArea = ({
-  initialValue,
-  onChange,
-  className,
+  value,
+  onUpdate,
+  classes,
   ...other
 }) => {
   const textareaRef = useRef(null);
-  const [currentValue, setCurrentValue] = useState(initialValue);
 
   useEffect(() => {
     onTextUpdate(textareaRef.current);
-  }, [currentValue]);
+  }, [value]);
 
   var textArea = (
     <textarea
       ref={textareaRef}
-      value={currentValue}
-      className={"form-control " + (className || "")}
-      onChange={(e) => {
-        setCurrentValue(e.target.value);
-        onChange ? onChange(e.target.value) : undefined;
-      }}
+      value={value}
+      className={["form-control", ...(classes || [])].join(' ')}
+      onChange={(e) => onUpdate(e.target.value)}
       // Start with one so single lines items don't have an extra line and resizing will take care longer items
       rows={"1"}
       {...other}

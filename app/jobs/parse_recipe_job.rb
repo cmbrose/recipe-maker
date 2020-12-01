@@ -24,6 +24,8 @@ class ParseRecipeJob < ApplicationJob
         BudgetBytes.new(doc)
       when 'skinnytaste.com'
         SkinnyTaste.new(doc)
+      else
+        raise "'#{domain}' cannot be handled"
       end
     end
 

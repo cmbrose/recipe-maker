@@ -34,10 +34,15 @@ class RecipesController < ApplicationController
   def create_from_url
     url = params[:recipe][:url]
 
-    recipe = Recipe.create(source: url, source_kind: "url")
-    CreateRecipeJob.perform_now(recipe, false)
+    begin
+      recipe = Recipe.new(source: url, source_kind: "url")
+      CreateRecipeJob.perform_now(recipe, false)
+      recipe.save
 
-    redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
+      redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
+    rescue => ex
+      redirect_to url_for(:controller => :errors, :action => :exception, :exception => ex)
+    end
   end
 
   def recipe_params

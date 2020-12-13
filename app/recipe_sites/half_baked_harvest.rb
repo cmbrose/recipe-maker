@@ -1,4 +1,4 @@
-class BudgetBytes
+class HalfBakedHarvest
   def initialize(document)
     @document = document
   end
@@ -16,7 +16,7 @@ class BudgetBytes
 
   private
     def root
-      @document.xpath("/body/div[@class='container']/div[@class='wrapper']/div/article/div[@class='wprm-recipe-container']/div[@class='wprm-recipe']")
+      @document.xpath("//body/div[@id='wrapper']//div[@class='wprm-recipe']")
     end
 
     def name
@@ -25,17 +25,16 @@ class BudgetBytes
 
     def preview_url
       elem = root.first_xpath([
-        "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']/img", 
-        "//div[@class='wprm-container-float-right']/div[@class='wprm-recipe-image']/img"])
+        "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']//img"])
 
-      srcset = elem.attribute('data-lazy-srcset')
+      srcset = elem.attribute('data-srcset')
       if !srcset.nil?
         # Format is {url-1} {size-1}, {url-2} {size-2}, ... and last one is the biggest
         url = srcset.text.split(',').last.split(' ').first
       else
         url = elem.attribute('src')&.text
         if url.nil? || !url.starts_with?('http')
-          url = elem.attribute('data-lazy-src').text
+          url = elem.attribute('data-src').text
         end
       end
 
@@ -67,19 +66,20 @@ class BudgetBytes
 
         ingredients = []
 
-        ingredient_elems = group_elem.xpath("//ul")        
+        ingredient_elems = group_elem.xpath("//ul")
+
         ingredient_elems.children.each do |ingredient_elem|
-          name = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-name']").text.strip
-          amount = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-amount']").text&.strip || ""
-          unit = ingredient_elem.xpath("//span[@class='wprm-recipe-ingredient-unit']").text&.strip || ""
+          name = ingredient_elem.xpath("/span[@class='wprm-recipe-ingredient-name']").text.strip
+          amount = ingredient_elem.xpath("/span[@class='wprm-recipe-ingredient-amount']").text&.strip || ""
+          unit = ingredient_elem.xpath("/span[@class='wprm-recipe-ingredient-unit']").text&.strip || ""
 
           ingredient = "#{amount} #{unit} #{name}".strip.capitalize
+          if ingredient.length > 0
+            ingredients << ingredient
+          end
         end
 
         groups << { 'name' => group_name, 'ingredients' => ingredients }
-        if ingredient.length > 0
-          ingredients << ingredient
-        end
       end
 
       groups
@@ -89,11 +89,11 @@ class BudgetBytes
       list = []
       
       container = root.first_xpath([
-        "//div[@class='wprm-recipe-instructions-container']/div[@class='wprm-recipe-instruction-group']/ol",
-        "//div[@class='wprm-recipe-instructions-container']/div[@class='wprm-recipe-instruction-group']/ul"])
+        "//div[@class='wprm-recipe-instructions-container']/div[@class='wprm-recipe-instruction-group']/ol/li/div",
+        "//div[@class='wprm-recipe-instructions-container']/div[@class='wprm-recipe-instruction-group']/ul/li/div"])
 
       container.children.each do |elem|
-        list << elem.text.strip
+        list << elem.text.strip.gsub(/^\d+\.\s*/, '')
       end
 
       list

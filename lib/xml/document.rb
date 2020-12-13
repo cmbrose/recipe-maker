@@ -13,6 +13,11 @@ class Xml::Document
   class Node
     def initialize(root)
       @root = root
+      @nbsp = Nokogiri::HTML("&nbsp;").text
+    end
+
+    def text
+      @root.text.gsub(@nbsp, ' ')
     end
 
     def xpath(path, *args)

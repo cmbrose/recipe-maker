@@ -6,13 +6,19 @@ class FetchRecipeJob < ApplicationJob
   def perform(recipe, async=true)
     url = recipe.source
 
+    html = nil
     begin
-      open(url) { |f|
+      URI.open(url) { |f|
         html = f.read
-        async ? ParseRecipeJob.perform_later(recipe, html, true) : ParseRecipeJob.perform_now(recipe, html, false)
       }
-    rescue => ex
+
+      while html.nil?
+        ;
+      end
+    rescue OpenURI::HTTPError
       raise "Failed to fetch recipe from '#{url}'"
     end
+
+    async ? ParseRecipeJob.perform_later(recipe, html, true) : ParseRecipeJob.perform_now(recipe, html, false)
   end
 end

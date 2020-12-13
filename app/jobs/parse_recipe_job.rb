@@ -4,17 +4,21 @@ class ParseRecipeJob < ApplicationJob
   queue_as :default
 
   def perform(recipe, html, async=true)
-    doc = Xml::Document.new(html)
+    begin
+      doc = Xml::Document.new(html)
 
-    if recipe.source_is_url?
-      domain = ParseRecipeJob.get_host_without_www(recipe.source)
-      handler = ParseRecipeJob.get_site_handler(domain, doc)
-    else
-      raise "Cannot handle recipe source: #{recipe.source_kind}"
+      if recipe.source_is_url?
+        domain = ParseRecipeJob.get_host_without_www(recipe.source)
+        handler = ParseRecipeJob.get_site_handler(domain, doc)
+      else
+        raise "Cannot handle recipe source: #{recipe.source_kind}"
+      end
+
+      handler.populate_recipe(recipe)
+      recipe.save
+    rescue => ex
+      raise "Failed to parse recipe: #{ex.message}\n\n#{ex.backtrace}"
     end
-
-    handler.populate_recipe(recipe)
-    recipe.save
   end
 
   private
@@ -24,6 +28,8 @@ class ParseRecipeJob < ApplicationJob
         BudgetBytes.new(doc)
       when 'skinnytaste.com'
         SkinnyTaste.new(doc)
+      when 'halfbakedharvest.com'
+        HalfBakedHarvest.new(doc)
       else
         raise "'#{domain}' cannot be handled"
       end

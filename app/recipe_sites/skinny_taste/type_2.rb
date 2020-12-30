@@ -32,7 +32,7 @@ class SkinnyTaste::Type2
         url = img.attribute('data-srcset').text
           .split(',')
           .map { |src| src.split(' ') }
-          .sort_by { |pair| pair[1] } # sorts ascending
+          .sort_by { |pair| pair[1].to_i } # sorts ascending
           .last[0]        
       elsif img.attribute('src')&.starts_with?('http') == true
         url = img.attribute('src').text

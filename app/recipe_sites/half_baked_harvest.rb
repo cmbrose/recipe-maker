@@ -27,18 +27,21 @@ class HalfBakedHarvest
       elem = root.first_xpath([
         "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']//img"])
 
-      srcset = elem.attribute('data-srcset')
-      if !srcset.nil?
-        # Format is {url-1} {size-1}, {url-2} {size-2}, ... and last one is the biggest
-        url = srcset.text.split(',').last.split(' ').first
-      else
-        url = elem.attribute('src')&.text
-        if url.nil? || !url.starts_with?('http')
-          url = elem.attribute('data-src').text
+        if !elem.attribute('data-lazy-srcset').nil?
+          url = elem.attribute('data-lazy-srcset').text
+        elsif !elem.attribute('data-lazy-src').nil?
+          url = elem.attribute('data-lazy-src').text
+        elsif !elem.attribute('data-srcset').nil?
+          url = elem.attribute('data-srcset').text
+        elsif !elem.attribute('src')&.nil?
+          url = elem.attribute('src').text
         end
-      end
-
-      url
+        
+        url
+          .split(',')
+          .map { |src| src.split(' ') }
+          .sort_by { |pair| pair[1].to_i } # sorts ascending
+          .last[0]
     end
 
     def servings

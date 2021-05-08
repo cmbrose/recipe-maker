@@ -56,7 +56,7 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Migrate DB
+      - name: Initialize DB
         env:
           DB_USERNAME: ${{ secrets.DEV_DB_ADMIN_USERNAME }}
           DB_PASSWORD: ${{ secrets.DEV_DB_ADMIN_PASSWORD }}
@@ -69,11 +69,6 @@ jobs:
           bundle install --jobs 4 --retry 3
           bundle exec rails db:create
           bundle exec rails db:migrate
-
-      - name: Initialize Thinking Sphinx
-        env:
-          RAILS_ENV: production
-        run: |
           rake ts:rebuild
 
       - uses: Azure/k8s-deploy@v1

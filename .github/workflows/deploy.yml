@@ -70,6 +70,12 @@ jobs:
           bundle exec rails db:create
           bundle exec rails db:migrate
 
+      - name: Initialize Thinking Sphinx
+        env:
+          RAILS_ENV: production
+        run: |
+          rake ts:rebuild
+
       - uses: Azure/k8s-deploy@v1
         with:
           manifests: |

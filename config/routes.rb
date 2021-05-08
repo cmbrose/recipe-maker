@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get 'home/index'
+  post 'home/search'
+  get 'home/results'
 
   resources :recipes
   post 'recipes/create_from_url'

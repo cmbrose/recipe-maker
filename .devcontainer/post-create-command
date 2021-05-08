@@ -1,5 +1,6 @@
 cp $(dirname $0)/.bashrc ~/.bashrc
 
+sude apt update
 sudo apt install -y mariadb-server
 sudo service mysql start
 

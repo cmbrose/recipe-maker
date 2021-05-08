@@ -13,4 +13,8 @@ class Recipe < ApplicationRecord
   serialize :directions, JSON
 
   source_kinds ['url']
+
+  ThinkingSphinx::Callbacks.append(
+    self, :behaviours => [:real_time]
+  )
 end

@@ -11,16 +11,21 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="d-flex w-50 order-0">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <div class="navbar-collapse collapse justify-content-center order-2" id="navbarSupportedContent">
+      <div class="navbar-collapse collapse justify-content-center" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <%= render partial: 'nav_item', locals: { label: 'Home', href: '/' } %>
         </ul>
+        
+        <div class="pull-right">
+          <%= form_with url: "/home/search", class: "form-inline my-2 my-lg-0 navbar-form pull-right" do |form| %>
+            <%= form.text_field :name, class: "form-control mr-sm-2", type: "search" %>
+            <%= form.submit 'Search', name: nil, class: "btn btn-secondary my-2 my-sm-0" %>
+          <% end %>
+        </div>
       </div>
     </nav>
 

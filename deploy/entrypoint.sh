@@ -3,6 +3,10 @@ set -e
 
 rm -f /myapp/tmp/pids/server.pid
 
-rails
+service mysql start
+
+rake ts:rebuild
+
+rails s
 
 exec "$@"

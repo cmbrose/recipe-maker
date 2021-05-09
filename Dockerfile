@@ -1,13 +1,13 @@
-FROM ruby:2.7
+FROM ruby:2.7.2
 
 ARG USER=root
 
 RUN (id -u $USER && \
-        echo "User $USER already exists") || \
+    echo "User $USER already exists") || \
     (echo "Adding user $USER" && \
-        useradd -m -g root -G sudo -s /bin/bash $USER && \
-        echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER)
-        
+    useradd -m -g root -G sudo -s /bin/bash $USER && \
+    echo "$USER ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USER)
+
 USER $USER
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends nodejs curl sudo lsb-release

@@ -20,8 +20,11 @@ spec:
         - name: recipe
           image: cmbrose.azurecr.io/recipes
           ports:
-            - name: http
+            - name: searchd
               containerPort: 9306
+              protocol: TCP
+            - name: mysql
+              containerPort: 3306
               protocol: TCP
           env:
             - name: DB_CERT_PATH

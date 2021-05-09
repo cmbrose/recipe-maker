@@ -3,8 +3,8 @@ set -e
 
 rm -f /myapp/tmp/pids/server.pid
 
-rake ts:index
 rake ts:start
+rake ts:rt:index
 
 rails s
 

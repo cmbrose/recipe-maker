@@ -28,7 +28,8 @@ class Xml::Document
         path = ".#{path}"
       end
 
-      Node.wrap(@root.xpath(path, *args))
+      node = @root.xpath(path, *args)
+      Node.wrap(node) if !node.nil?
     end
 
     def first_xpath(paths, *args)
@@ -42,7 +43,7 @@ class Xml::Document
         end
       end
 
-      Node.wrap(res)
+      Node.wrap(res) if !res.nil?
     end
 
     def method_missing(method_name, *args, &block)

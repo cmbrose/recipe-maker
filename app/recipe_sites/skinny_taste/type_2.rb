@@ -11,7 +11,7 @@ class SkinnyTaste::Type2
   private
     def self.find_root_path(document)
       root_options = [
-        "/body/div[@class='container']/div[@class='wrapper']/div[@id='content']/div[@class='post']/div/div[@class='wprm-recipe']"
+        "/body//div[@class='wprm-recipe' and not(contains(@class, 'snippet'))]"
       ]
 
       root_options.find { |path| !document.xpath(path).empty? }
@@ -26,21 +26,24 @@ class SkinnyTaste::Type2
     end
 
     def preview_url
-      img = root.xpath("//div/div[@class='wprm-recipe-image']/img")
       
-      if !img.attribute('data-srcset').nil?
-        url = img.attribute('data-srcset').text
-          .split(',')
-          .map { |src| src.split(' ') }
-          .sort_by { |pair| pair[1].to_i } # sorts ascending
-          .last[0]        
-      elsif img.attribute('src')&.starts_with?('http') == true
-        url = img.attribute('src').text
-      else
-        url = img.attribute('data-src').text
+      elem = root.xpath("//div/div[@class='wprm-recipe-image']/img")
+      
+      if elem.attribute('data-lazy-srcset')&.text.starts_with?('http') == true
+        url = elem.attribute('data-lazy-srcset').text
+      elsif elem.attribute('data-lazy-src')&.text.starts_with?('http') == true
+        url = elem.attribute('data-lazy-src').text
+      elsif elem.attribute('data-srcset')&.text.starts_with?('http') == true
+        url = elem.attribute('data-srcset').text
+      elsif elem.attribute('src')&.text.starts_with?('http') == true
+        url = elem.attribute('src').text
       end
-
+      
       url
+        .split(',')
+        .map { |src| src.split(' ') }
+        .sort_by { |pair| pair[1].to_i } # sorts ascending
+        .last[0]
     end
 
     def servings

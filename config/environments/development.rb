@@ -62,4 +62,5 @@ Rails.application.configure do
 
   config.hosts << "127.0.0.1"
   config.hosts << ".apps.codespaces.githubusercontent.com"
+  config.hosts << ".githubpreview.dev"
 end

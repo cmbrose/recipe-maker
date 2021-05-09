@@ -5,6 +5,8 @@ metadata:
 spec:
   ports:
     - port: 9306
+      name: searchd
     - port: 3306
+      name: mysql
   selector:
     app: ts

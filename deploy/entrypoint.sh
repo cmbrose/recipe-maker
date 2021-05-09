@@ -4,6 +4,7 @@ set -e
 rm -f /myapp/tmp/pids/server.pid
 
 rake ts:configure
+rake ts:sql:index
 (rake ts:status | grep "is currently running") || rake ts:start
 rake ts:rt:index
 

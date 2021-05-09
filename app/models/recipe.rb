@@ -17,4 +17,6 @@ class Recipe < ApplicationRecord
   ThinkingSphinx::Callbacks.append(
     self, :behaviours => [:real_time]
   )
+
+  after_save ThinkingSphinx::RealTime.callback_for(:recipe)
 end

@@ -76,6 +76,8 @@ jobs:
           manifests: |
             deploy/manifests/deployment.yaml
             deploy/manifests/service.yaml
+            deploy/manifests/deploy-ts.yaml
+            deploy/manifests/ts-service.yaml
           images: |
             cmbrose.azurecr.io/recipes:${{ github.sha }}
           imagepullsecrets: |

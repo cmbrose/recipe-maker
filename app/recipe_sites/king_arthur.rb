@@ -100,7 +100,7 @@ class KingArthur
       container = root.first_xpath([
         "//article[@class='recipe__instructions']/div[@class='field--recipe-steps']/ol/li/p"])
 
-      container.children.map do |elem|
+      container.map do |elem|
         elem.text.strip
       end
     end

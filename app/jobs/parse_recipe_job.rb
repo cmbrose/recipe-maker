@@ -30,6 +30,8 @@ class ParseRecipeJob < ApplicationJob
         SkinnyTaste.new(doc)
       when 'halfbakedharvest.com'
         HalfBakedHarvest.new(doc)
+      when 'kingarthurbaking.com'
+        KingArthur.new(doc)
       else
         raise "'#{domain}' cannot be handled"
       end

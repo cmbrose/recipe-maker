@@ -29,7 +29,7 @@ const AutoHeightTextArea = ({
 
 const onTextUpdate = (area) => {
   // Reset field height
-  area.style.height = "inherit";
+  area.style.height = "auto";
 
   // Get the computed styles for the element
   const computed = window.getComputedStyle(area);
@@ -37,9 +37,9 @@ const onTextUpdate = (area) => {
   // Calculate the height
   const height =
     parseInt(computed.getPropertyValue("border-top-width"), 10) +
-    parseInt(computed.getPropertyValue("padding-top"), 10) +
+    //parseInt(computed.getPropertyValue("padding-top"), 10) +
     area.scrollHeight +
-    parseInt(computed.getPropertyValue("padding-bottom"), 10) +
+    //parseInt(computed.getPropertyValue("padding-bottom"), 10) +
     parseInt(computed.getPropertyValue("border-bottom-width"), 10);
 
   area.style.height = `${height}px`;

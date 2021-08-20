@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :recipes
   post 'recipes/create_from_url'
+  post 'recipes/create_empty'
   get 'recipes/:id/live', controller: :recipes, action: :live
 
   get 'errors/exception', controller: :errors, action: :exception

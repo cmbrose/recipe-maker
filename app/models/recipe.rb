@@ -12,5 +12,5 @@ class Recipe < ApplicationRecord
   serialize :ingredients, JSON
   serialize :directions, JSON
 
-  source_kinds ['url']
+  source_kinds ['url', 'manual']
 end

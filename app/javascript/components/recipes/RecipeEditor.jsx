@@ -22,13 +22,13 @@ class RecipeEditor extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="recipe-editor">
                 <RecipeDetails
                     recipe={this.state.recipe}
                     editable={true}
                     onUpdate={(value) => this.setState({ recipe: value })}
                 />
-                <button onClick={() => {
+                <button className="btn btn-primary" onClick={() => {
                     $.ajax({
                         url: this.props.update_url,
                         type: "PUT",

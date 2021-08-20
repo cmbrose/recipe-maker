@@ -6,14 +6,45 @@
   //max-width: 925px;
   margin: 0 auto;
 
-  ul,
-  ol {
+  ul, ol {
     padding-left: 18px;
-
+    margin-bottom: 1rem;
     li {
       padding-top: 9px;
     }
   }
+}
+
+.recipe-editor .recipe-card {
+  ul, ol {
+    li:first-child {
+      padding-top: 0px;
+    }
+
+    // Only remove the padding for the top level ul/ol, for nested lists keep it
+    ul:first-child, ol:first-child {
+      li {
+        padding-top: 9px;
+      }
+    }
+  }
+}
+
+
+ul.editable-text-area-list {
+  list-style-type: none;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.editable-text-area-list-item .hidden-child {
+  visibility: hidden;
+}
+
+.editable-text-area-list-item:hover > .hidden-child{
+  visibility: visible;
 }
 
 .recipe-card > div {

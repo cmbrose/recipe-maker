@@ -1,70 +1,136 @@
 import React from "react";
 
-import AutoHeightTextArea from "../AutoHeightTextArea";
 import TextInput from "../TextInput";
+import EditableTextAreaList from "../EditableTextAreaList";
+import AutoHeightTextArea from "../AutoHeightTextArea";
 
-const RecipeIngredientsList = ({
-  ingredients,
-  editable,
-  onUpdate,
-  ...other
-}) => {
-  var groups = ingredients.map((group, groupIdx) => {
-    var key = groupIdx + "_group";
+const RecipeIngredientsList = ({ ingredients, editable, onUpdate }) => {
+  return editable
+    ? renderEditable(ingredients, onUpdate)
+    : renderReadonly(ingredients);
+};
 
-    var header = group.name
-      ? renderHeader(group.name, editable, (value) => {
-        group.name = value;
-        onUpdate(ingredients);
-      })
-      : undefined;
+const renderEditable = (ingredients, onUpdate) => {
+  return (
+    <EditableTextAreaList
+      items={ingredients}
+      onUpdate={onUpdate}
+      listType={"none"}
+      buildNewItem={() => ({ group: undefined, ingredients: [], })}
+      addItemText={"Add group"}
+      renderListItem={
+        (group, idx) => {
+          return renderGroupEditable(group, idx, (updatedGroup) => {
+            ingredients[idx] = updatedGroup;
+            onUpdate(ingredients);
+          });
+        }
+      }
+    />
+  );
+};
 
-    var items = group.ingredients.map((ingredient, ingrIdx) => {
-      var element = renderIngredient(ingredient, editable, (value) => {
-        group.ingredients[ingrIdx] = value;
-        onUpdate(ingredients);
-      });
+const renderReadonly = (ingredients) => {
+  const groups = ingredients.map(renderGroupReadonly);
 
-      return <li key={key + "_" + ingrIdx + "_item"}>{element}</li>;
-    });
+  return (
+    <>
+      {groups}
+    </>
+  );
+};
 
-    return (
-      <div key={key}>
-        {header}
-        {items}
-      </div>
-    );
+const renderGroupEditable = (group, groupIdx, onUpdate) => {
+  var groupKey = groupIdx + "_group";
+
+  var header = renderHeaderEditable(group.name, (value) => {
+    group.name = value;
+    onUpdate(group);
   });
 
-  return <ul>{groups}</ul>;
+  const items = renderIngredientsEditable(groupKey, group.ingredients, (value) => {
+    group.ingredients = value;
+    onUpdate(group);
+  });
+
+  return (
+    <div key={groupKey} >
+      {header}
+      {items}
+    </div >
+  );
+}
+
+const renderGroupReadonly = (group, groupIdx) => {
+  const groupKey = "group_" + groupIdx;
+
+  const header = group.name
+    ? renderHeaderReadonly(group.name)
+    : undefined;
+
+  const items = renderIngredientsReadonly(groupKey, group.ingredients);
+
+  return (
+    <div key={groupKey} >
+      {header}
+      {items}
+    </div>
+  );
 };
 
-const renderHeader = (header, editable, onUpdate) => {
-  if (editable) {
-    return (
-      <TextInput
-        classes={["recipe-ingredient-group-edit-input"]}
-        value={header}
-        onUpdate={onUpdate}
-      />
-    );
-  } else {
-    return <h5 className="recipe-card-ingredient-group-name">{header}</h5>;
-  }
+const renderHeaderEditable = (header, onUpdate) => {
+  return (
+    <TextInput
+      classes={["recipe-ingredient-group-edit-input"]}
+      value={header}
+      onUpdate={onUpdate}
+    />
+  );
 };
 
-const renderIngredient = (item, editable, onUpdate) => {
-  if (editable) {
-    return (
-      <AutoHeightTextArea
-        classes={["recipe-ingredient-item-edit-area"]}
-        value={item}
-        onUpdate={onUpdate}
-      />
-    );
-  } else {
-    return <>{item}</>;
-  }
+const renderHeaderReadonly = (header) => {
+  return <h5 className="recipe-card-ingredient-group-name">{header}</h5>;
+};
+
+const renderIngredientsEditable = (groupKey, ingredients, onUpdate) => {
+  return (
+    <EditableTextAreaList
+      items={ingredients}
+      onUpdate={onUpdate}
+      listType={"ul"}
+      listItemKeyPrefix={groupKey + "_item_"}
+      buildNewItem={() => ""}
+      addItemText={"Add ingredient"}
+      renderListItem={
+        (item, idx) => {
+          return (
+            <AutoHeightTextArea
+              value={item}
+              onUpdate={(value) => {
+                ingredients[idx] = value;
+                onUpdate(ingredients);
+              }}
+              classes={["recipe-ingredient-item-edit-area"]}
+            />
+          );
+        }
+      }
+    />
+  );
+};
+
+const renderIngredientsReadonly = (groupKey, ingredients) => {
+  const items = ingredients.map((ingredient, ingrIdx) => (
+    <li key={groupKey + "_item_" + ingrIdx}>
+      {ingredient}
+    </li>
+  ));
+
+  return (
+    <ul>
+      {items}
+    </ul>
+  );
 };
 
 export default RecipeIngredientsList;

@@ -26,7 +26,8 @@ class HalfBakedHarvest
     def preview_url
       elem = root.first_xpath([
         "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']//img",
-        "./../following-sibling::p/img"]) # In the DOM it looks like /p/div/img but in the raw it is just /p/img
+        "./../following-sibling::p/img", # In the DOM it looks like /p/div/img but in the raw it is just /p/img
+        "./../following-sibling::div//img"])
 
         if !elem.attribute('data-lazy-srcset').nil?
           url = elem.attribute('data-lazy-srcset').text

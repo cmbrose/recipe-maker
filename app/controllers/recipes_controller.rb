@@ -31,6 +31,10 @@ class RecipesController < ApplicationController
     # redirect_to "/recipe/#{recipe.id}", locals: { recipe: recipe }
   end
 
+  def destroy
+    recipe = Recipe.destroy(params[:id])
+  end
+
   def create_from_url
     url = params[:recipe][:url]
 

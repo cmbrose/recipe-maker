@@ -29,21 +29,30 @@ class HalfBakedHarvest
         "./../following-sibling::p/img", # In the DOM it looks like /p/div/img but in the raw it is just /p/img
         "./../following-sibling::div//img"])
 
-        if !elem.attribute('data-lazy-srcset').nil?
-          url = elem.attribute('data-lazy-srcset').text
-        elsif !elem.attribute('data-lazy-src').nil?
-          url = elem.attribute('data-lazy-src').text
-        elsif !elem.attribute('data-srcset').nil?
-          url = elem.attribute('data-srcset').text
-        elsif !elem.attribute('src')&.nil?
-          url = elem.attribute('src').text
-        end
-        
-        url
-          .split(',')
-          .map { |src| src.split(' ') }
-          .sort_by { |pair| pair[1].to_i } # sorts ascending
-          .last[0]
+      if elem.nil?
+        # Sometimes the normal image isn't there, in that case fall back to the first image on the page
+        elem = @document.xpath("(//article/div[@class='entry-content']//div[contains(@class, 'wp-block-image')])[1]//img")
+      end
+
+      if elem.nil?
+        return nil
+      end
+
+      if !elem.attribute('data-lazy-srcset').nil?
+        url = elem.attribute('data-lazy-srcset').text
+      elsif !elem.attribute('data-lazy-src').nil?
+        url = elem.attribute('data-lazy-src').text
+      elsif !elem.attribute('data-srcset').nil?
+        url = elem.attribute('data-srcset').text
+      elsif !elem.attribute('src').nil?
+        url = elem.attribute('src').text
+      end
+      
+      url
+        .split(',')
+        .map { |src| src.split(' ') }
+        .sort_by { |pair| pair[1].to_i } # sorts ascending
+        .last[0]
     end
 
     def servings

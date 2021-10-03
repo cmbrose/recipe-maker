@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
@@ -19,7 +19,7 @@ const RecipeDetails = ({ recipe, editable, onUpdate, sideBarButtons, ...other })
       <div className="recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
 
       <div className="sidebar">
-        <div class="sidebar-nav nav navbar-inverse">
+        <div className="sidebar-nav nav navbar-inverse">
           <div className="recipe-card-sidebar">{renderSideBar(recipe, sideBarButtons, editable, onUpdate)}</div>
         </div>
       </div>
@@ -53,9 +53,64 @@ const renderSideBar = (recipe, sideBarButtons, editable, onUpdate) => {
   return (
     <div className="recipe-card-tags">
       {sideBarButtons}
-      {/* {renderTags(recipe, editable, onUpdate)} */}
+      {renderTags(recipe.tags, editable, (newTags) => {
+        recipe.tags = newTags;
+        onUpdate(recipe);
+      })}
     </div>
   );
+}
+
+const renderTags = (tags, editable, onUpdate) => {
+  const [newTag, setNewTag] = useState('');
+
+  if (editable) {
+    return (
+      <div className="tags-group mt-3">
+        <TextInput
+          onUpdate={setNewTag}
+          value={newTag}
+          onReturn={() => {
+            if (newTag === '') {
+              return;
+            }
+
+            if (tags.indexOf(newTag) === -1) {
+              tags.push(newTag);
+              onUpdate(tags);
+            }
+
+            setNewTag('');
+          }}
+        />
+        {tags.map((tag, idx) => (
+          <div class="badge badge-pill badge-info recipe-tag mr-1">
+            {tag}
+            <button
+              type="button"
+              className="close"
+              onClick={() => {
+                tags.splice(idx, 1);
+                onUpdate(tags);
+              }}>
+              <span>×</span>
+            </button>
+          </div>
+        ))
+        }
+      </div >
+    );
+  } else {
+    return (
+      <div className="tags-group mt-3">
+        {tags.map((tag) => (
+          <div class="badge badge-pill badge-info recipe-tag mr-1">
+            {tag}
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
 const renderName = (name, editable, onUpdate) => {

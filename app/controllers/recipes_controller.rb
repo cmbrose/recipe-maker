@@ -13,6 +13,18 @@ class RecipesController < ApplicationController
     render :locals => { recipe: recipe }
   end
 
+  def index
+    name_param = params[:name]
+
+    if (name_param.to_s == '')
+      recipes = Recipe.all
+    else
+      recipes = Recipe.search_by_name(name_param)
+    end
+
+    render :locals => { recipes: recipes, search: name_param }
+  end
+
   def new
     recipe = Recipe.new
     render :locals => { recipe: recipe }

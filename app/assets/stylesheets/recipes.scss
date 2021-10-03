@@ -30,7 +30,6 @@
   }
 }
 
-
 ul.editable-text-area-list {
   list-style-type: none;
   padding-left: 0;
@@ -114,4 +113,13 @@ input.recipe-ingredient-group-edit-input {
 
 .recipe-direction-edit-area {
   resize: none;
+}
+
+.badge {
+  .close {
+    margin-left: .25rem;
+		color: inherit;
+		font-size: 100%;
+		text-shadow: 0 1px 0 rgba(#000, .5);
+  }
 }

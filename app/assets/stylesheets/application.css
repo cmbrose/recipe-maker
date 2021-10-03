@@ -27,9 +27,11 @@
     width: 100%;
   }
 
-  .navbar {
+  .navbar,
+  .sidebar {
     display: none;
   }
+  
 }
 
 .v-centered {

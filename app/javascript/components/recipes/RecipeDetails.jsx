@@ -4,7 +4,7 @@ import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
 import TextInput from "../TextInput";
 
-const RecipeDetails = ({ recipe, editable, onUpdate, ...other }) => {
+const RecipeDetails = ({ recipe, editable, onUpdate, sideBarButtons, ...other }) => {
   useEffect(allocateAndShowPreviewImage);
 
   return (
@@ -17,6 +17,12 @@ const RecipeDetails = ({ recipe, editable, onUpdate, ...other }) => {
       <div className="recipe-card-left">{renderLeftPane(recipe, editable, onUpdate)}</div>
 
       <div className="recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
+
+      <div className="sidebar">
+        <div class="sidebar-nav nav navbar-inverse">
+          <div className="recipe-card-sidebar">{renderSideBar(recipe, sideBarButtons, editable, onUpdate)}</div>
+        </div>
+      </div>
 
       {renderPreviewImageHidden(recipe.preview_url, editable, (url) => { recipe.preview_url = url; onUpdate(recipe); })}
     </div>
@@ -39,6 +45,15 @@ const renderRightPane = (recipe, editable, onUpdate) => {
       <h3>Directions</h3>
       {renderTimes(recipe, editable, onUpdate)}
       {renderDirections(recipe.directions, editable, (value) => { recipe.directions = value; onUpdate(recipe); })}
+    </div>
+  );
+}
+
+const renderSideBar = (recipe, sideBarButtons, editable, onUpdate) => {
+  return (
+    <div className="recipe-card-tags">
+      {sideBarButtons}
+      {/* {renderTags(recipe, editable, onUpdate)} */}
     </div>
   );
 }

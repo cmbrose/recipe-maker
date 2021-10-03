@@ -21,39 +21,39 @@ class RecipeEditor extends React.Component {
     };
 
     render() {
+        var sideBarButtons = [
+            (<button type="button" className="btn btn-primary mr-1" onClick={() => {
+                $.ajax({
+                    url: this.props.update_url,
+                    type: "PUT",
+                    data: JSON.stringify(this.state.recipe),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: () => {
+                        window.location.href = this.props.show_url;
+                    }
+                });
+            }}>Submit</button>),
+            (<button type="button" className="btn btn-secondary mr-1" onClick={() => {
+                window.location.href = this.props.show_url;
+            }}>Cancel</button>),
+            (<button type="button" className="btn btn-danger" onClick={() => {
+                $.ajax({
+                    url: this.props.delete_url,
+                    type: "DELETE",
+                    success: () => {
+                        window.location.href = "/";
+                    }
+                });
+            }}>Delete</button>),
+        ]
         return (
             <div className="recipe-editor">
-                <div className="mt-3">
-                    <button type="button" className="btn btn-primary mr-1" onClick={() => {
-                        $.ajax({
-                            url: this.props.update_url,
-                            type: "PUT",
-                            data: JSON.stringify(this.state.recipe),
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: () => {
-                                window.location.href = this.props.show_url;
-                            }
-                        });
-                    }}>Submit</button>
-                    <button type="button" className="btn btn-secondary mr-1" onClick={() => {
-                        window.location.href = this.props.show_url;
-                    }}>Cancel</button>
-                    <button type="button" className="btn btn-danger" onClick={() => {
-                        $.ajax({
-                            url: this.props.delete_url,
-                            type: "DELETE",
-                            success: () => {
-                                window.location.href = "/";
-                            }
-                        });
-                    }}>Delete</button>
-                </div>
-                <hr />
                 <RecipeDetails
                     recipe={this.state.recipe}
                     editable={true}
                     onUpdate={(value) => this.setState({ recipe: value })}
+                    sideBarButtons={sideBarButtons}
                 />
             </div >
         );

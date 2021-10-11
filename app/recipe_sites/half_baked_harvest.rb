@@ -27,7 +27,8 @@ class HalfBakedHarvest
       elem = root.first_xpath([
         "//div[@class='wprm-recipe-image-container']/div[@class='wprm-recipe-image']//img",
         "./../following-sibling::p/img", # In the DOM it looks like /p/div/img but in the raw it is just /p/img
-        "./../following-sibling::div//img"])
+        "./../following-sibling::div//img",
+        "./../following-sibling::figure//img"])
 
       if elem.nil?
         # Sometimes the normal image isn't there, in that case fall back to the first image on the page
@@ -46,6 +47,10 @@ class HalfBakedHarvest
         url = elem.attribute('data-srcset').text
       elsif !elem.attribute('src').nil?
         url = elem.attribute('src').text
+      end
+
+      if url.nil?
+        return nil
       end
       
       url

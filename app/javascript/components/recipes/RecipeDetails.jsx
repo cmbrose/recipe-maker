@@ -193,7 +193,7 @@ const renderDirections = (directions, editable, onUpdate) => {
   );
 }
 
-const renderPreviewImageHidden = (preview_url, editable, onUpdate) => {
+const renderPreviewImageHidden = (previewUrl, editable, onUpdate) => {
   return (
     <div
       className="recipe-card-preview-container"
@@ -201,10 +201,10 @@ const renderPreviewImageHidden = (preview_url, editable, onUpdate) => {
     >
       <img
         className="recipe-card-preview"
-        src={preview_url}
+        src={previewUrl || "/assets/unknown.jpg"}
       />
       {
-        editable ? <TextInput value={preview_url} onUpdate={onUpdate} /> : undefined
+        editable ? <TextInput value={previewUrl} onUpdate={onUpdate} /> : undefined
       }
     </div>
   );

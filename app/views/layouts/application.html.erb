@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Recipes</title>
+    <title>
+      <%= (yield(:title) + " - " unless yield(:title).blank?).to_s + "Recipes" %>
+    </title>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -20,6 +23,7 @@
       <div class="navbar-collapse collapse justify-content-center order-2" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <%= render partial: 'nav_item', locals: { label: 'Home', href: '/' } %>
+          <%= render partial: 'nav_item', locals: { label: 'Search', href: '/recipes' } %>
         </ul>
       </div>
     </nav>

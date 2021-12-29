@@ -1,22 +1,29 @@
 class Recipe < ApplicationRecord
+  include Filterable
+
   serialize :tags, Array
 
+  scope :filter_by_name, lambda { |name|
+    words = name.split(' ')
+    name_query_clauses = words.map do |word|
+      "(LOWER(CONCAT(' ', name, ' ')) LIKE '% #{word.downcase} %')"
+    end
+    name_query = '(' + name_query_clauses.join(' or ') + ')'
+
+    where name_query
+  }
+
+  scope :filter_by_url, lambda { |url|
+    where(source_kind: 'url')
+      .where(source: url)
+  }
+
   def self.source_kinds(kinds)
-    kinds.each do |kind|       
+    kinds.each do |kind|
       define_method "source_is_#{kind}?" do
         source_kind == kind
       end
     end
-  end
-
-  def self.search_by_name(search_text)
-    words = search_text.split(' ')
-    name_query_clauses = words.map do |word|
-      "(LOWER(CONCAT(' ', name, ' ')) LIKE '% #{word.downcase} %')"
-    end
-    name_query = "(" + name_query_clauses.join(" or ") + ")"
-
-    Recipe.where(name_query)
   end
 
   publishes_updates
@@ -24,5 +31,5 @@ class Recipe < ApplicationRecord
   serialize :ingredients, JSON
   serialize :directions, JSON
 
-  source_kinds ['url', 'manual']
+  source_kinds %w[url manual]
 end

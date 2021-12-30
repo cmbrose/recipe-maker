@@ -7,8 +7,8 @@ class RecipeViewer extends React.Component {
     };
 
     render() {
-        var sideBarButtons = [
-            (<button type="button" className="btn btn-secondary mr-1" onClick={() => {
+        var managementButtons = [
+            (<button type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
                 window.location.href = this.props.edit_url;
             }}>Edit</button>),
         ];
@@ -18,7 +18,7 @@ class RecipeViewer extends React.Component {
                 <RecipeDetails
                     recipe={this.state.recipe}
                     editable={false}
-                    sideBarButtons={sideBarButtons}
+                    managementButtons={managementButtons}
                 />
             </div >
         );

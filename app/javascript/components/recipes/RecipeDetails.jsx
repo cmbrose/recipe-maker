@@ -4,24 +4,21 @@ import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
 import TextInput from "../TextInput";
 
-const RecipeDetails = ({ recipe, editable, onUpdate, sideBarButtons, ...other }) => {
+const RecipeDetails = ({ recipe, editable, onUpdate, managementButtons, ...other }) => {
   useEffect(allocateAndShowPreviewImage);
 
   return (
     <div className="recipe-card">
-      <div className="recipe-card-name">{renderName(recipe.name, editable, (name) => {
+      <div className="row recipe-card-name">{renderName(recipe.name, editable, (name) => {
         recipe.name = name;
         onUpdate(recipe);
       })}</div>
 
-      <div className="recipe-card-left">{renderLeftPane(recipe, editable, onUpdate)}</div>
+      <div className="row recipe-card-meta">{renderMetaPanel(recipe, managementButtons, editable, onUpdate)}</div>
 
-      <div className="recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
-
-      <div className="sidebar">
-        <div className="sidebar-nav nav navbar-inverse">
-          <div className="recipe-card-sidebar">{renderSideBar(recipe, sideBarButtons, editable, onUpdate)}</div>
-        </div>
+      <div className="row recipe-body">
+        <div className="col-sm-5 recipe-card-left">{renderLeftPane(recipe, editable, onUpdate)}</div>
+        <div className="col-sm-7 recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
       </div>
 
       {renderPreviewImageHidden(recipe.preview_url, editable, (url) => { recipe.preview_url = url; onUpdate(recipe); })}
@@ -49,15 +46,19 @@ const renderRightPane = (recipe, editable, onUpdate) => {
   );
 }
 
-const renderSideBar = (recipe, sideBarButtons, editable, onUpdate) => {
+const renderMetaPanel = (recipe, buttons, editable, onUpdate) => {
   return (
-    <div className="recipe-card-tags">
-      {sideBarButtons}
-      {renderTags(recipe.tags, editable, (newTags) => {
-        recipe.tags = newTags;
-        onUpdate(recipe);
-      })}
-    </div>
+    <>
+      <div className="col">
+        {renderTags(recipe.tags, editable, (newTags) => {
+          recipe.tags = newTags;
+          onUpdate(recipe);
+        })}
+      </div>
+      <div className="float-right">
+        {buttons}
+      </div>
+    </>
   );
 }
 
@@ -66,10 +67,28 @@ const renderTags = (tags, editable, onUpdate) => {
 
   if (editable) {
     return (
-      <div className="tags-group mt-3">
+      <div className="tags-group form-group row mb-0">
+        <div className="v-centered">
+          <label className="v-centered">Tags&nbsp;</label>
+          {tags.map((tag, idx) => (
+            <span class="badge badge-info recipe-tag mr-1">
+              {tag}
+              <button
+                type="button"
+                className="close"
+                onClick={() => {
+                  tags.splice(idx, 1);
+                  onUpdate(tags);
+                }}>
+                <span>×</span>
+              </button>
+            </span>
+          ))}
+        </div>
         <TextInput
           onUpdate={setNewTag}
           value={newTag}
+          classes={["col-sm-2", "form-control-sm"]}
           onReturn={() => {
             if (newTag === '') {
               return;
@@ -83,31 +102,30 @@ const renderTags = (tags, editable, onUpdate) => {
             setNewTag('');
           }}
         />
-        {tags.map((tag, idx) => (
-          <div class="badge badge-pill badge-info recipe-tag mr-1">
-            {tag}
-            <button
-              type="button"
-              className="close"
-              onClick={() => {
-                tags.splice(idx, 1);
-                onUpdate(tags);
-              }}>
-              <span>×</span>
-            </button>
-          </div>
-        ))
-        }
       </div >
+    );
+  } else if (tags.length > 0) {
+    return (
+      <div className="tags-group form-group row mb-0">
+        <div className="v-centered">
+          <label className="v-centered">Tags&nbsp;</label>
+          {tags.map((tag) => (
+            <span class="badge badge-info recipe-tag mr-1">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
     );
   } else {
     return (
-      <div className="tags-group mt-3">
-        {tags.map((tag) => (
-          <div class="badge badge-pill badge-info recipe-tag mr-1">
-            {tag}
-          </div>
-        ))}
+      <div className="tags-group form-group row mb-0">
+        <div className="v-centered">
+          <label className="v-centered">Tags&nbsp;</label>
+          <span class="badge badge-secondary recipe-tag mr-1">
+            [No tags]
+          </span>
+        </div>
       </div>
     );
   }

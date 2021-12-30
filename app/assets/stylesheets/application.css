@@ -27,11 +27,13 @@
     width: 100%;
   }
 
-  .navbar,
-  .sidebar {
+  .navbar {
     display: none;
   }
   
+  .recipe-card .recipe-card-meta {
+    display: none;
+  }
 }
 
 .v-centered {

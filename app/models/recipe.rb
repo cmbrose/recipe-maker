@@ -18,6 +18,15 @@ class Recipe < ApplicationRecord
       .where(source: url)
   }
 
+  scope :filter_by_tag, lambda { |_tags|
+    # The DB stores arrays as yaml, so search for a row like "- tag"
+    clauses = _tags.split(',').map do |_tag|
+      "(LOWER(tags) LIKE '%- #{_tag.downcase}\n')"
+    end
+
+    where '(' + clauses.join(' or ') + ')'
+  }
+
   def self.source_kinds(kinds)
     kinds.each do |kind|
       define_method "source_is_#{kind}?" do

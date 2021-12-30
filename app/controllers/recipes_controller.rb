@@ -14,16 +14,24 @@ class RecipesController < ApplicationController
   end
 
   def index
-    name_param = params[:name]
+    query_params =
+      if params.has_key?(:query)
+        params_from_query(params[:query])
+      else
+        params.permit(:query, :name, :url, :tag)
+      end
+
     open_single = parse_boolean params[:openSingle]
 
-    recipes = Recipe.filter(params.slice(:name, :url))
+    used_params = query_params.slice(:name, :url, :tag).to_h
+    recipes = Recipe.filter used_params
 
     if open_single && recipes.count == 1
       return redirect_to "/recipes/#{recipes.first.id}", locals: { recipe: recipes.first }
     end
 
-    render locals: { recipes: recipes, search: name_param }
+    query_str = params_to_query(used_params)
+    render locals: { recipes: recipes, query: query_str }
   end
 
   def new
@@ -39,9 +47,6 @@ class RecipesController < ApplicationController
   def update
     recipe = Recipe.find(params[:id])
     recipe.update(recipe_params)
-
-    # This is only called from ajax so no need to do anything
-    # redirect_to "/recipe/#{recipe.id}", locals: { recipe: recipe }
   end
 
   def destroy
@@ -69,5 +74,33 @@ class RecipesController < ApplicationController
 
   def recipe_params
     params.require(:recipe).permit!
+  end
+
+  private
+
+  def params_from_query(query)
+    query_fields = {}
+    query.split(' ').each do |part|
+      if part.include?(':')
+        key = part.split(':')[0].to_sym
+        value = part.split(':')[1]
+      else
+        key = :name
+        value = part
+      end
+
+      delim = key == :name ? ' ' : ','
+      query_fields[key] = (query_fields[key].to_s + delim if query_fields.has_key?(key)).to_s + value
+    end
+
+    query_fields
+  end
+
+  def params_to_query(parameters)
+    pairs = parameters.map do |k, v|
+      "#{k}:#{v}"
+    end
+
+    pairs.join(' ')
   end
 end

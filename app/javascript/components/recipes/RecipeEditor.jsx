@@ -1,28 +1,14 @@
 import React from "react";
 import RecipeDetails from "./RecipeDetails";
 
-// const RecipeEditor = ({ recipe: initialRecipe }) => {
-//     const [currentRecipe, setRecipe] = useState(initialRecipe);
-
-//     useEffect(() => {
-//         setRecipe(initialRecipe);
-//     }, [initialRecipe]);
-
-//     return <RecipeDetails
-//         recipe={currentRecipe}
-//         editable={true}
-//         onUpdate={setRecipe}
-//     />
-// }
-
 class RecipeEditor extends React.Component {
     state = {
         recipe: this.props.recipe
     };
 
     render() {
-        var sideBarButtons = [
-            (<button type="button" className="btn btn-primary mr-1" onClick={() => {
+        var managementButtons = [
+            (<button type="button" className="btn btn-sm btn-primary mr-1" onClick={() => {
                 $.ajax({
                     url: this.props.update_url,
                     type: "PUT",
@@ -34,10 +20,10 @@ class RecipeEditor extends React.Component {
                     }
                 });
             }}>Submit</button>),
-            (<button type="button" className="btn btn-secondary mr-1" onClick={() => {
+            (<button type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
                 window.location.href = this.props.show_url;
             }}>Cancel</button>),
-            (<button type="button" className="btn btn-danger" onClick={() => {
+            (<button type="button" className="btn btn-sm btn-danger" onClick={() => {
                 $.ajax({
                     url: this.props.delete_url,
                     type: "DELETE",
@@ -53,7 +39,7 @@ class RecipeEditor extends React.Component {
                     recipe={this.state.recipe}
                     editable={true}
                     onUpdate={(value) => this.setState({ recipe: value })}
-                    sideBarButtons={sideBarButtons}
+                    managementButtons={managementButtons}
                 />
             </div >
         );

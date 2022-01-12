@@ -71,7 +71,7 @@ const renderTags = (tags, editable, onUpdate) => {
         <div className="v-centered">
           <label className="v-centered">Tags&nbsp;</label>
           {tags.map((tag, idx) => (
-            <span class="badge badge-info recipe-tag mr-1">
+            <span className="badge badge-info recipe-tag mr-1">
               {tag}
               <button
                 type="button"
@@ -110,7 +110,7 @@ const renderTags = (tags, editable, onUpdate) => {
         <div className="v-centered">
           <label className="v-centered">Tags&nbsp;</label>
           {tags.map((tag) => (
-            <span class="badge badge-info recipe-tag mr-1">
+            <span className="badge badge-info recipe-tag mr-1">
               {tag}
             </span>
           ))}
@@ -122,7 +122,7 @@ const renderTags = (tags, editable, onUpdate) => {
       <div className="tags-group form-group row mb-0">
         <div className="v-centered">
           <label className="v-centered">Tags&nbsp;</label>
-          <span class="badge badge-secondary recipe-tag mr-1">
+          <span className="badge badge-secondary recipe-tag mr-1">
             [No tags]
           </span>
         </div>
@@ -157,7 +157,7 @@ const renderTimes = (times, editable, onUpdate) => {
       .map((item, idx) => (
         <div key={idx} className="col-sm-4">
           <label>{item.name}</label>
-          <TextInput value={item.value} onUpdate={item.onUpdate} />
+          <TextInput value={item.value || ""} onUpdate={item.onUpdate} />
         </div>
       ));
 
@@ -176,7 +176,7 @@ const renderServings = (servings, editable, onUpdate) => {
     return (
       <div className="recipe-card-servings form-group row">
         <div className="col-sm-1 v-centered">(for</div>
-        <div className="col-sm-6"><TextInput value={servings} onUpdate={onUpdate} /></div>
+        <div className="col-sm-6"><TextInput value={servings || ""} onUpdate={onUpdate} /></div>
         <div className="col-sm-3 v-centered">servings)</div>
       </div>
     )
@@ -212,17 +212,27 @@ const renderDirections = (directions, editable, onUpdate) => {
 }
 
 const renderPreviewImageHidden = (previewUrl, editable, onUpdate) => {
+  const img = previewUrl || editable
+    ? <img
+      className="recipe-card-preview mb-2"
+      src={previewUrl || "/assets/unknown.jpg"}
+    />
+    : undefined;
+
   return (
     <div
       className="recipe-card-preview-container"
       hidden
     >
-      <img
-        className="recipe-card-preview"
-        src={previewUrl || "/assets/unknown.jpg"}
-      />
+      {img}
       {
-        editable ? <TextInput value={previewUrl} onUpdate={onUpdate} /> : undefined
+        editable
+          ? <TextInput
+            placeholder="Preview Image Url"
+            value={previewUrl || ""}
+            onUpdate={onUpdate}
+          />
+          : undefined
       }
     </div>
   );

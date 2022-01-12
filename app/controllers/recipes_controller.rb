@@ -67,7 +67,7 @@ class RecipesController < ApplicationController
   end
 
   def create_empty
-    recipe = Recipe.create!(source_kind: 'manual', name: 'Empty Recipe', preview_url: 'Preview Image Url')
+    recipe = Recipe.create!(source_kind: 'manual', name: 'Empty Recipe')
 
     redirect_to "/recipes/#{recipe.id}/edit", locals: { recipe: recipe }
   end

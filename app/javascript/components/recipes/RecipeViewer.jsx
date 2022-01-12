@@ -8,7 +8,7 @@ class RecipeViewer extends React.Component {
 
     render() {
         var managementButtons = [
-            (<button type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
+            (<button key="edit" type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
                 window.location.href = this.props.edit_url;
             }}>Edit</button>),
         ];

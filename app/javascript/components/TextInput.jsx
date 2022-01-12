@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextInput = ({ value, onUpdate, onReturn, classes }) => {
+const TextInput = ({ value, onUpdate, onReturn, classes, ...other }) => {
     classes = classes || [];
 
     return <input
@@ -13,6 +13,7 @@ const TextInput = ({ value, onUpdate, onReturn, classes }) => {
                 onReturn();
             }
         }}
+        {...other}
     />;
 }
 

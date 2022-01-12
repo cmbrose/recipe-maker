@@ -8,7 +8,7 @@ class RecipeEditor extends React.Component {
 
     render() {
         var managementButtons = [
-            (<button type="button" className="btn btn-sm btn-primary mr-1" onClick={() => {
+            (<button key="submit" type="button" className="btn btn-sm btn-primary mr-1" onClick={() => {
                 $.ajax({
                     url: this.props.update_url,
                     type: "PUT",
@@ -20,10 +20,10 @@ class RecipeEditor extends React.Component {
                     }
                 });
             }}>Submit</button>),
-            (<button type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
+            (<button key="cancel" type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
                 window.location.href = this.props.show_url;
             }}>Cancel</button>),
-            (<button type="button" className="btn btn-sm btn-danger" onClick={() => {
+            (<button key="delete" type="button" className="btn btn-sm btn-danger" onClick={() => {
                 $.ajax({
                     url: this.props.delete_url,
                     type: "DELETE",

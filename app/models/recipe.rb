@@ -21,7 +21,7 @@ class Recipe < ApplicationRecord
   scope :filter_by_tag, lambda { |_tags|
     # The DB stores arrays as yaml, so search for a row like "- tag"
     clauses = _tags.split(',').map do |_tag|
-      "(LOWER(tags) LIKE '%- #{_tag.downcase}\n')"
+      "(LOWER(tags) LIKE '%- #{_tag.downcase}\n%')"
     end
 
     where '(' + clauses.join(' or ') + ')'

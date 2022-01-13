@@ -40,6 +40,7 @@ class RecipeEditor extends React.Component {
                     editable={true}
                     onUpdate={(value) => this.setState({ recipe: value })}
                     managementButtons={managementButtons}
+                    defaultPreview={this.props.default_preview}
                 />
             </div >
         );

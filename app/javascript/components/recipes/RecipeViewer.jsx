@@ -19,6 +19,7 @@ class RecipeViewer extends React.Component {
                     recipe={this.state.recipe}
                     editable={false}
                     managementButtons={managementButtons}
+                    defaultPreview={this.props.default_preview}
                 />
             </div >
         );

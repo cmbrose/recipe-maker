@@ -22,7 +22,11 @@
   <div class="row">
     <div class="container">
       <% recipes.each do |recipe| %>
-        <%= react_component("home/RecipeListItem", { id: recipe.id, recipe: recipe }) %>
+        <%= react_component("home/RecipeListItem", { 
+          id: recipe.id, 
+          recipe: recipe,
+          default_preview: image_path("unknown.jpg")
+        }) %>
       <% end %>
     </div>
   </div>

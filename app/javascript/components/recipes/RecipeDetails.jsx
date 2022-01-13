@@ -4,7 +4,14 @@ import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
 import TextInput from "../TextInput";
 
-const RecipeDetails = ({ recipe, editable, onUpdate, managementButtons, ...other }) => {
+const RecipeDetails = ({
+  recipe,
+  editable,
+  onUpdate,
+  managementButtons,
+  defaultPreview,
+  ...other
+}) => {
   useEffect(allocateAndShowPreviewImage);
 
   return (
@@ -21,7 +28,7 @@ const RecipeDetails = ({ recipe, editable, onUpdate, managementButtons, ...other
         <div className="col-sm-7 recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
       </div>
 
-      {renderPreviewImageHidden(recipe.preview_url, editable, (url) => { recipe.preview_url = url; onUpdate(recipe); })}
+      {renderPreviewImageHidden(recipe.preview_url, defaultPreview, editable, (url) => { recipe.preview_url = url; onUpdate(recipe); })}
     </div>
   );
 }
@@ -211,11 +218,11 @@ const renderDirections = (directions, editable, onUpdate) => {
   );
 }
 
-const renderPreviewImageHidden = (previewUrl, editable, onUpdate) => {
+const renderPreviewImageHidden = (previewUrl, defaultUrl, editable, onUpdate) => {
   const img = previewUrl || editable
     ? <img
       className="recipe-card-preview mb-2"
-      src={previewUrl || "/assets/unknown.jpg"}
+      src={previewUrl || defaultUrl}
     />
     : undefined;
 

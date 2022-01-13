@@ -22,7 +22,7 @@ class RecipeListItem extends React.Component {
   }
 
   renderImagePreview() {
-    var url = this.props.recipe.preview_url || "/assets/unknown.jpg";
+    var url = this.props.recipe.preview_url || this.props.default_preview;
 
     return <img src={url} object-fit="scale-down" height="80px" />;
   }

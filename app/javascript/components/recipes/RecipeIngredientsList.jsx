@@ -15,7 +15,6 @@ const renderEditable = (ingredients, onUpdate) => {
     <EditableTextAreaList
       items={ingredients}
       onUpdate={onUpdate}
-      listType={"none"}
       buildNewItem={() => ({ group: undefined, ingredients: [], })}
       addItemText={"Add group"}
       renderListItem={
@@ -97,7 +96,6 @@ const renderIngredientsEditable = (groupKey, ingredients, onUpdate) => {
     <EditableTextAreaList
       items={ingredients}
       onUpdate={onUpdate}
-      listType={"ul"}
       listItemKeyPrefix={groupKey + "_item_"}
       buildNewItem={() => ""}
       addItemText={"Add ingredient"}

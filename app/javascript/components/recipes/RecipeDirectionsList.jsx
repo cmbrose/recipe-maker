@@ -14,7 +14,6 @@ const renderEditable = (items, onUpdate) => {
     <EditableTextAreaList
       items={items}
       onUpdate={onUpdate}
-      listType={"ol"}
       buildNewItem={() => ""}
       addItemText={"Add step"}
       renderListItem={

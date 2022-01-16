@@ -1,0 +1,12 @@
+<% content_for :title, menu.name %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <%= react_component("menus/MenuViewer", { 
+        menu: menu, 
+        edit_url: edit_menu_path(menu)
+      }) %>
+    </div>
+  </div>
+</div>

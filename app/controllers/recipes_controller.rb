@@ -13,6 +13,11 @@ class RecipesController < ApplicationController
     render locals: { recipe: recipe }
   end
 
+  def get
+    recipe = Recipe.find(params[:id])
+    render json: recipe
+  end
+
   def index
     query_params =
       if params.has_key?(:query)

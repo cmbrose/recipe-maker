@@ -24,7 +24,7 @@ class Recipe < ApplicationRecord
       "(LOWER(tags) LIKE '%- #{_tag.downcase}\n%')"
     end
 
-    where '(' + clauses.join(' or ') + ')'
+    where '(' + clauses.join(' and ') + ')'
   }
 
   def self.source_kinds(kinds)

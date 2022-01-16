@@ -16,11 +16,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="d-flex w-50 order-0">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-            <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
       </div>
 
-      <div class="navbar-collapse collapse justify-content-center order-2" id="navbarSupportedContent">
+      <div class="navbar-collapse collapse justify-content-center order-2" id="collapsingNavbar">
         <ul class="navbar-nav mr-auto">
           <%= render partial: 'nav_item', locals: { label: 'Home', href: '/' } %>
           <%= render partial: 'nav_item', locals: { label: 'Search', href: '/recipes' } %>

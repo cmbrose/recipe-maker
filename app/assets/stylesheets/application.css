@@ -49,3 +49,7 @@
   background-color: gray;
   text-decoration: underline;
 }
+
+.multiline-text {
+  white-space: pre-wrap;
+}

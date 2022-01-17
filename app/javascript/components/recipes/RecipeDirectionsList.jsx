@@ -36,7 +36,7 @@ const renderEditable = (items, onUpdate) => {
 
 const renderReadonly = (directions) => {
   const items = directions.map((direction, idx) => (
-    <li key={idx}>
+    <li key={idx} className="multiline-text">
       {direction}
     </li>
   ));

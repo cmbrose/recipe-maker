@@ -119,7 +119,7 @@ const renderIngredientsEditable = (groupKey, ingredients, onUpdate) => {
 
 const renderIngredientsReadonly = (groupKey, ingredients) => {
   const items = ingredients.map((ingredient, ingrIdx) => (
-    <li key={groupKey + "_item_" + ingrIdx}>
+    <li key={groupKey + "_item_" + ingrIdx} className="multiline-text">
       {ingredient}
     </li>
   ));

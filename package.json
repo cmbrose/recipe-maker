@@ -16,6 +16,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-drag-listview": "^0.1.8",
+    "react-widgets": "^5.6.0",
     "react_ujs": "^2.6.1",
     "turbolinks": "^5.2.0"
   },

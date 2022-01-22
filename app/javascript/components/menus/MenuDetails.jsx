@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import RecipeListItem from "../recipes/RecipeListItem";
 
 const MenuDetails = ({
   menu,
@@ -40,13 +41,14 @@ const renderName = (name, editable, onUpdate) => {
 
 const renderRecipeList = (recipes) => {
   return (
-    <ul className="menu-item">
+    <div class="container">
       {recipes.map((r) => (
-        <li key={r.id}>
-          <a href={"/recipes/" + r.id}>{r.name}</a>
-        </li>
+        <RecipeListItem
+          id={r.id}
+          recipe={r}
+        />
       ))}
-    </ul>
+    </div>
   );
 };
 

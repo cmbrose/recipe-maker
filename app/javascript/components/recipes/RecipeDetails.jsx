@@ -117,7 +117,7 @@ const renderTags = (tags, editable, onUpdate) => {
         <div className="v-centered">
           <label className="v-centered">Tags&nbsp;</label>
           {tags.map((tag) => (
-            <a href={"/recipes?tag=" + tag} className="badge badge-info recipe-tag mr-1">
+            <a key={"tag-link-" + tag} href={"/recipes?tag=" + tag} className="badge badge-info recipe-tag mr-1">
               {tag}
             </a>
           ))}

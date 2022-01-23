@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal"
+import Dropdown from "react-bootstrap/Dropdown"
+import DropdownButton from "react-bootstrap/DropdownButton"
+
 import RecipeDetails from "./RecipeDetails";
 
 const RecipeViewer = ({
@@ -6,8 +10,15 @@ const RecipeViewer = ({
     default_preview,
     edit_url,
 }) => {
+    const [showModal, setShowModal] = useState(false);
+    const [menus, setMenus] = useState([]);
+
+    useEffect(() => {
+        fetchMenus(setMenus);
+    }, []);
+
     var managementButtons = [
-        (<button key="add-to-menu" type="button" className="btn btn-sm btn-secondary mr-1" data-toggle="modal" data-target="#menuSelectModal">
+        (<button key="add-to-menu" type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => setShowModal(true)}>
             Add to Menu
         </button>),
         (<button key="edit" type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
@@ -16,13 +27,6 @@ const RecipeViewer = ({
             Edit
         </button>),
     ];
-
-    const [menus, setMenus] = useState([]);
-    const [selectedMenu, setSelectedMenu] = useState(undefined);
-
-    useEffect(() => {
-        fetchMenus(setMenus);
-    }, []);
 
     return (
         <>
@@ -35,49 +39,16 @@ const RecipeViewer = ({
                 />
             </div >
 
-            <div className="modal fade" id="menuSelectModal" tabindex="-1" role="dialog" aria-labelledby="menuSelectModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="menuSelectModalLabel">Select menu</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {selectedMenu ? selectedMenu.name : "Select a menu..."}
-                            </a>
-
-                            <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                {menus.map((menu) => (
-                                    <a
-                                        key={"menu-select-" + menu.id}
-                                        className="dropdown-item"
-                                        onClick={() => setSelectedMenu(menu)}
-                                    >
-                                        {menu.name}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" disabled={selectedMenu === undefined} onClick={() => {
-                                $.ajax({
-                                    url: "/api/menus/" + selectedMenu.id + "/recipes",
-                                    type: "PUT",
-                                    data: {
-                                        recipeId: recipe.id,
-                                    },
-                                    dataType: "json",
-                                    success: () => $('#dropdownMenuLink').dropdown('toggle')
-                                });
-                            }}>Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div >
+            {renderAddToMenuModal(menus, showModal, () => setShowModal(false), (menuId) => {
+                $.ajax({
+                    url: `/api/menus/${menuId}/recipes`,
+                    type: "PUT",
+                    data: {
+                        recipeId: recipe.id,
+                    },
+                    dataType: "json"
+                });
+            })}
         </>
     );
 }
@@ -89,6 +60,50 @@ const fetchMenus = (setMenus) => {
         dataType: "json",
         success: (data) => setMenus(data)
     });
+}
+
+const renderAddToMenuModal = (menus, show, handleClose, submit) => {
+    const [selectedMenu, setSelectedMenu] = useState(undefined);
+
+    return (
+        <>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header>
+                    <Modal.Title>Modal heading</Modal.Title>
+                    <button type="button" className="close" onClick={handleClose}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </Modal.Header>
+                <Modal.Body>
+                    <DropdownButton id="menu-dropdown" title={selectedMenu ? selectedMenu.name : "Select a menu..."}>
+                        {menus.map((menu) => (
+                            <Dropdown.Item
+                                key={"menu-select-" + menu.id}
+                                onClick={() => setSelectedMenu(menu)}
+                            >
+                                {menu.name}
+                            </Dropdown.Item>
+                        ))}
+                    </DropdownButton>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="button" className="btn btn-secondary" onClick={handleClose}>
+                        Close
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        disabled={selectedMenu === undefined}
+                        onClick={() => {
+                            submit(selectedMenu.id);
+                            handleClose();
+                        }}>
+                        Add
+                    </button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
 }
 
 export default RecipeViewer;

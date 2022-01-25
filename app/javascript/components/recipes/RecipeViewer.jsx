@@ -66,43 +66,41 @@ const renderAddToMenuModal = (menus, show, handleClose, submit) => {
     const [selectedMenu, setSelectedMenu] = useState(undefined);
 
     return (
-        <>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title>Modal heading</Modal.Title>
-                    <button type="button" className="close" onClick={handleClose}>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </Modal.Header>
-                <Modal.Body>
-                    <DropdownButton id="menu-dropdown" title={selectedMenu ? selectedMenu.name : "Select a menu..."}>
-                        {menus.map((menu) => (
-                            <Dropdown.Item
-                                key={"menu-select-" + menu.id}
-                                onClick={() => setSelectedMenu(menu)}
-                            >
-                                {menu.name}
-                            </Dropdown.Item>
-                        ))}
-                    </DropdownButton>
-                </Modal.Body>
-                <Modal.Footer>
-                    <button type="button" className="btn btn-secondary" onClick={handleClose}>
-                        Close
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        disabled={selectedMenu === undefined}
-                        onClick={() => {
-                            submit(selectedMenu.id);
-                            handleClose();
-                        }}>
-                        Add
-                    </button>
-                </Modal.Footer>
-            </Modal>
-        </>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header>
+                <Modal.Title>Select a menu</Modal.Title>
+                <button type="button" className="close" onClick={handleClose}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </Modal.Header>
+            <Modal.Body>
+                <DropdownButton id="menu-dropdown" title={selectedMenu ? selectedMenu.name : "Select a menu..."}>
+                    {menus.map((menu) => (
+                        <Dropdown.Item
+                            key={"menu-select-" + menu.id}
+                            onClick={() => setSelectedMenu(menu)}
+                        >
+                            {menu.name}
+                        </Dropdown.Item>
+                    ))}
+                </DropdownButton>
+            </Modal.Body>
+            <Modal.Footer>
+                <button type="button" className="btn btn-secondary" onClick={handleClose}>
+                    Close
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={selectedMenu === undefined}
+                    onClick={() => {
+                        submit(selectedMenu.id);
+                        handleClose();
+                    }}>
+                    Add
+                </button>
+            </Modal.Footer>
+        </Modal>
     );
 }
 

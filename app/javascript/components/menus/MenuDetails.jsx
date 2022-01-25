@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+
 import RecipeListItem from "../recipes/RecipeListItem";
+import TextInput from "../TextInput";
+import EditableTextAreaList from "../EditableTextAreaList";
 
 const MenuDetails = ({
   menu,
+  managementButtons,
   editable,
   onUpdate,
   ...other
 }) => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(undefined);
 
   useEffect(() => {
     fetchRecipes(menu.recipes || [], setRecipes);
@@ -15,13 +19,24 @@ const MenuDetails = ({
 
   return (
     <div className="menu-card">
-      <div className="row menu-card-name">{renderName(menu.name, editable, (name) => {
-        menu.name = name;
-        onUpdate(menu);
-      })}</div>
+      <div className="row">
+        <div className="col menu-card-name">{renderName(menu.name, editable, (name) => {
+          menu.name = name;
+          onUpdate(menu);
+        })}</div>
+
+        <div className="float-right v-centered">
+          {managementButtons}
+        </div>
+      </div>
 
       <div className="row menu-recipe-list">
-        {renderRecipeList(recipes, editable, onUpdate)}
+        <div className="col-sm-12">
+          {renderRecipeList(recipes, editable, (value) => {
+            menu.recipes = value.map((r) => r.id);
+            onUpdate(menu);
+          })}
+        </div>
       </div>
     </div>
   );
@@ -39,24 +54,56 @@ const renderName = (name, editable, onUpdate) => {
   }
 }
 
-const renderRecipeList = (recipes) => {
+const renderRecipeList = (recipes, editable, onUpdate) => {
+  if (recipes === undefined) {
+    return (
+      <h5>Loading recipes...</h5>
+    )
+  }
+
+  return editable
+    ? renderRecipeListEditable(recipes, onUpdate)
+    : renderRecipeListReadonly(recipes)
+};
+
+const renderRecipeListReadonly = (recipes) => {
   return (
-    <div class="container">
+    <div className="container">
       {recipes.map((r) => (
-        <RecipeListItem
-          id={r.id}
-          recipe={r}
-        />
+        <div key={`menu-recipe-${r.id}`} className="container">
+          <RecipeListItem
+            
+            id={r.id}
+            recipe={r}
+          />
+        </div>
       ))}
     </div>
   );
 };
 
+const renderRecipeListEditable = (recipes, onUpdate) => {
+  return (
+    <EditableTextAreaList
+      items={recipes}
+      onUpdate={onUpdate}
+      renderListItem={(recipe) =>
+        <div key={`menu-recipe-${recipe.id}`} className="container">
+          <RecipeListItem
+            id={recipe.id}
+            recipe={recipe}
+          />
+        </div>
+      }
+    />
+  );
+};
+
 const fetchRecipes = (ids, setRecipes) => {
   const recipePromises = ids.map((id) => {
-    const promise = new Promise((resolve, reject) =>
+    const promise = new Promise((resolve) =>
       $.ajax({
-        url: "/api/recipes/" + id,
+        url: `/api/recipes/${id}`,
         type: "GET",
         dataType: "json",
         success: (data) => resolve(data)

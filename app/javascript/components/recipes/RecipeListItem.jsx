@@ -1,45 +1,28 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-class RecipeListItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const RecipeListItem = ({
+  id,
+  recipe,
+  default_preview,
+}) => {
+  const previewUrl = recipe.preview_url || default_preview;
 
-  render() {
-    return (
-      <div
-        className="row border recipe-list-item"
-        onClick={this.redirectToRecipe.bind(this)}
-      >
-        <div className="col-sm-2 col-md-2">{this.renderImagePreview()}</div>
-
-        <div className="v-centered col-sm-12 col-md-10">
-          {this.props.recipe.name || "Unnamed recipe"}
-        </div>
+  return (
+    <div
+      className="row border recipe-list-item"
+      onClick={() => {
+        window.location.href = `/recipes/${id}`;
+      }}
+    >
+      <div className="col-sm-2 col-md-2">
+        <img src={previewUrl} object-fit="scale-down" height="80px" />
       </div>
-    );
-  }
 
-  renderImagePreview() {
-    var url = this.props.recipe.preview_url || this.props.default_preview;
-
-    return <img src={url} object-fit="scale-down" height="80px" />;
-  }
-
-  redirectToRecipe() {
-    window.location.href = "/recipes/" + this.props.id;
-  }
+      <div className="v-centered col-sm-12 col-md-10">
+        {recipe.name || "Unnamed recipe"}
+      </div>
+    </div>
+  );
 }
-
-RecipeListItem.defaultProps = {
-  id: undefined,
-  recipe: {},
-};
-
-RecipeListItem.propTypes = {
-  id: PropTypes.number,
-  recipe: PropTypes.object,
-};
 
 export default RecipeListItem;

@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal"
 
-import RecipeDetails from "./RecipeDetails";
+import MenuDetails from "./MenuDetails";
 
-const RecipeEditor = ({
-    recipe,
+const MenuEditor = ({
+    menu,
     update_url,
-    delete_url,
     show_url,
-    default_preview,
+    delete_url,
 }) => {
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
-    const [recipeDetails, setRecipe] = useState({...recipe});
+    const [menuDetails, setMenu] = useState({...menu});
 
     var managementButtons = [
         (<button key="submit" type="button" className="btn btn-sm btn-primary mr-1" onClick={() => {
             $.ajax({
                 url: update_url,
                 type: "PUT",
-                data: JSON.stringify(recipeDetails),
+                data: JSON.stringify(menuDetails),
                 contentType: "application/json",
                 dataType: "json",
                 success: () => {
@@ -36,21 +35,21 @@ const RecipeEditor = ({
 
     return (
         <>
-            <div className="recipe-editor">
-                <RecipeDetails
-                    recipe={recipeDetails}
+            <div className="menu-viewer">
+                <MenuDetails
+                    menu={menu}
                     editable={true}
-                    onUpdate={(value) => setRecipe({...value})}
                     managementButtons={managementButtons}
-                    defaultPreview={default_preview}
+                    onUpdate={(value) => setMenu({...value})}
                 />
             </div>
-            {renderConfirmDeleteModal(showConfirmDeleteModal, () => setShowConfirmDeleteModal(false), () => {
+            {renderConfirmClearModal(showConfirmDeleteModal, () => setShowConfirmDeleteModal(false), () => {
                 $.ajax({
                     url: delete_url,
                     type: "DELETE",
+                    dataType: "json",
                     success: () => {
-                        window.location.href = "/";
+                        window.location.href = "/menus";
                     }
                 });
             })}
@@ -58,7 +57,7 @@ const RecipeEditor = ({
     );
 }
 
-const renderConfirmDeleteModal = (show, handleClose, accept) => {
+const renderConfirmClearModal = (show, handleClose, accept) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header>
@@ -68,7 +67,7 @@ const renderConfirmDeleteModal = (show, handleClose, accept) => {
                 </button>
             </Modal.Header>
             <Modal.Body>
-                Are you sure you want to delete this recipe?
+                Are you sure you want to delete this menu?
             </Modal.Body>
             <Modal.Footer>
                 <button type="button" className="btn btn-secondary" onClick={handleClose}>
@@ -85,4 +84,4 @@ const renderConfirmDeleteModal = (show, handleClose, accept) => {
     );
 }
 
-export default RecipeEditor;
+export default MenuEditor;

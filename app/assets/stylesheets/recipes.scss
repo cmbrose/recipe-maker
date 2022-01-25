@@ -35,22 +35,6 @@
   }
 }
 
-ul.editable-text-area-list {
-  list-style-type: none;
-  padding-left: 0;
-  padding-right: 0;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.editable-text-area-list-item .hidden-child {
-  visibility: hidden;
-}
-
-.editable-text-area-list-item:hover > .hidden-child{
-  visibility: visible;
-}
-
 .recipe-card > div {
   padding: 12px;
 }

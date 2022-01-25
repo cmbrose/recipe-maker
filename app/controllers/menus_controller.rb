@@ -13,6 +13,13 @@ class MenusController < ApplicationController
     recipe_id = params[:recipeId]
     menu = Menu.find(params[:id])
     menu.recipes.append(recipe_id) unless menu.recipes.include?(recipe_id)
+    menu.save
+  end
+
+  def clear
+    menu = Menu.find(params[:id])
+    menu.recipes = []
+    menu.save
   end
 
   def index
@@ -41,5 +48,9 @@ class MenusController < ApplicationController
 
   def destroy
     Menu.destroy(params[:id])
+  end
+
+  def menu_params
+    params.require(:menu).permit!
   end
 end

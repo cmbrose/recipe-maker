@@ -9,6 +9,8 @@ const EditableTextAreaList = ({
   buildNewItem,
   addItemText = "Add item"
 }) => {
+  const canAddItems = buildNewItem !== undefined;
+
   listItemKeyPrefix ||= "";
   const dragPointClass = 'drag-point_' + listItemKeyPrefix;
 
@@ -37,23 +39,19 @@ const EditableTextAreaList = ({
     handleSelector: '.' + dragPointClass
   };
 
+  const addItemButton = canAddItems
+    ? renderAddItemButton(addItemText, () => {
+      items.push(buildNewItem());
+      onUpdate(items);
+    })
+    : undefined;
+
   return (
     <>
       <ReactDragListView {...dragProps}>
         <ul className="editable-text-area-list">{itemsElems}</ul>
       </ReactDragListView>
-      <button
-        type="button"
-        className="btn btn-outline-secondary"
-        onClick={() => {
-          items.push(buildNewItem());
-          onUpdate(items);
-        }}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-        </svg>
-        {addItemText}
-      </button>
+      {addItemButton}
     </>
   );
 };
@@ -82,5 +80,17 @@ const renderItem = (item, idx, dragPointClass, onDelete, renderListItem) => {
     </div>
   );
 };
+
+const renderAddItemButton = (text, onClick) => {
+  return (<button
+    type="button"
+    className="btn btn-outline-secondary"
+    onClick={onClick}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
+      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+    </svg>
+    {text}
+  </button>);
+}
 
 export default EditableTextAreaList;

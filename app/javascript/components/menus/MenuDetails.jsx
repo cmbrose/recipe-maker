@@ -72,7 +72,6 @@ const renderRecipeListReadonly = (recipes) => {
       {recipes.map((r) => (
         <div key={`menu-recipe-${r.id}`} className="container">
           <RecipeListItem
-            
             id={r.id}
             recipe={r}
           />
@@ -101,17 +100,24 @@ const renderRecipeListEditable = (recipes, onUpdate) => {
 
 const fetchRecipes = (ids, setRecipes) => {
   const recipePromises = ids.map((id) => {
-    const promise = new Promise((resolve) =>
+    const promise = new Promise((resolve, reject) =>
       $.ajax({
         url: `/api/recipes/${id}`,
         type: "GET",
         dataType: "json",
-        success: (data) => resolve(data)
+        success: (data) => resolve(data),
+        error: (err) => {
+          if (err.status === 404) {
+            resolve(undefined)
+          } else {
+            reject(err);
+          }
+        }
       }));
     return promise;
   });
 
-  Promise.all(recipePromises).then(setRecipes);
+  Promise.all(recipePromises).then((recipes) => setRecipes(recipes.filter((r) => r !== undefined)));
 }
 
 export default MenuDetails;

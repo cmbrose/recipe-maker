@@ -10,7 +10,7 @@ class MenusController < ApplicationController
   end
 
   def add_recipe
-    recipe_id = params[:recipeId]
+    recipe_id = params[:recipeId].to_i
     menu = Menu.find(params[:id])
     menu.recipes.append(recipe_id) unless menu.recipes.include?(recipe_id)
     menu.save

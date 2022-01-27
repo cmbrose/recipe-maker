@@ -1,6 +1,11 @@
-// Place all the styles related to the Recipes controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+.recipe-list-item {
+  padding: 6px 0;
+
+  &:hover {
+    background-color: lightblue;
+    cursor: pointer;
+  }
+}
 
 .recipe-card {
   //max-width: 925px;
@@ -28,22 +33,6 @@
       }
     }
   }
-}
-
-ul.editable-text-area-list {
-  list-style-type: none;
-  padding-left: 0;
-  padding-right: 0;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.editable-text-area-list-item .hidden-child {
-  visibility: hidden;
-}
-
-.editable-text-area-list-item:hover > .hidden-child{
-  visibility: visible;
 }
 
 .recipe-card > div {

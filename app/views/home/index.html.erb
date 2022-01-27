@@ -48,7 +48,7 @@
     <h2>Recent creations</h2>
     <div class="container">
       <% recipes.each do |recipe| %>
-        <%= react_component("home/RecipeListItem", { 
+        <%= react_component("recipes/RecipeListItem", { 
           id: recipe.id,
           recipe: recipe,
           default_preview: image_path("unknown.jpg")

@@ -1,0 +1,8 @@
+<% content_for :title, menu.name %>
+
+<div class="container mt-2">
+  <%= react_component("menus/MenuViewer", { 
+    menu: menu, 
+    edit_url: edit_menu_path(menu)
+  }) %>
+</div>

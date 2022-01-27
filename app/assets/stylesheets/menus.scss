@@ -1,0 +1,16 @@
+.menu-list-item {
+    padding: 6px 0;
+
+    &:hover {
+        background-color: lightblue;
+        cursor: pointer;
+    }
+}
+
+.menu-card > div {
+    padding: 12px;
+}
+
+// .menu-card-name {
+//     margin: 9px;
+// }

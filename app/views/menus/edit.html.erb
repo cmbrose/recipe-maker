@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <%= react_component("menus/MenuEditor", { 
+        menu: menu, 
+        update_url: menu_path(menu), 
+        delete_url: menu_path(menu), 
+        show_url: menu_path(menu)
+      }) %>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,11 @@ class RecipesController < ApplicationController
     render locals: { recipe: recipe }
   end
 
+  def get
+    recipe = Recipe.find(params[:id])
+    render json: recipe
+  end
+
   def index
     query_params =
       if params.has_key?(:query)
@@ -51,6 +56,12 @@ class RecipesController < ApplicationController
 
   def destroy
     recipe = Recipe.destroy(params[:id])
+
+    menus = Menu.where_has_recipe(params[:id].to_i)
+    menus.each do |menu|
+      menu.recipes.delete(params[:id].to_i)
+      menu.save
+    end
   end
 
   def create_from_url

@@ -9,5 +9,11 @@ module Filterable
       end
       results
     end
+
+    def fiter_types
+      methods.grep(/^filter_by_/).map do |name|
+        name.to_s.remove('filter_by_').to_sym
+      end
+    end
   end
 end

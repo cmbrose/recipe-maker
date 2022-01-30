@@ -23,12 +23,15 @@ class RecipesController < ApplicationController
       if params.has_key?(:query)
         params_from_query(params[:query])
       else
-        params.permit(:query, :name, :url, :tag)
+        keys = params.keys.filter do |key|
+          Recipe.fiter_types.include? key.downcase.to_sym
+        end
+        params.permit(keys).transform_keys(&:downcase)
       end
 
     open_single = parse_boolean params[:openSingle]
 
-    used_params = query_params.slice(:name, :url, :tag).to_h
+    used_params = query_params.slice(*Recipe.fiter_types).to_h
     recipes = Recipe.filter used_params
 
     if open_single && recipes.count == 1
@@ -93,7 +96,7 @@ class RecipesController < ApplicationController
     query_fields = {}
     query.split(' ').each do |part|
       if part.include?(':')
-        key = part.split(':')[0].to_sym
+        key = part.split(':')[0].downcase.to_sym
         value = part.split(':')[1]
       else
         key = :name

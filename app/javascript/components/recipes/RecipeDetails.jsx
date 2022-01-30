@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import RecipeTag from "./RecipeTag";
 import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
 import TextInput from "../TextInput";
@@ -78,18 +79,15 @@ const renderTags = (tags, editable, onUpdate) => {
         <div className="v-centered">
           <label className="v-centered">Tags&nbsp;</label>
           {tags.map((tag, idx) => (
-            <span className="badge badge-info recipe-tag mr-1">
-              {tag}
-              <button
-                type="button"
-                className="close"
-                onClick={() => {
-                  tags.splice(idx, 1);
-                  onUpdate(tags);
-                }}>
-                <span>×</span>
-              </button>
-            </span>
+            <RecipeTag
+              key={"tag-edit-" + tag}
+              name={tag}
+              editable={true}
+              onRemove={() => {
+                tags.splice(idx, 1);
+                onUpdate(tags);
+              }}
+            />
           ))}
         </div>
         <TextInput
@@ -117,9 +115,7 @@ const renderTags = (tags, editable, onUpdate) => {
         <div className="v-centered">
           <label className="v-centered">Tags&nbsp;</label>
           {tags.map((tag) => (
-            <a key={"tag-link-" + tag} href={"/recipes?tag=" + tag} className="badge badge-info recipe-tag mr-1">
-              {tag}
-            </a>
+            <RecipeTag key={"tag-link-" + tag} name={tag} />
           ))}
         </div>
       </div>

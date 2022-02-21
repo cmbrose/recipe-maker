@@ -1,6 +1,6 @@
 import React from "react";
 
-import EditableTextAreaList from "../EditableTextAreaList";
+import EditableTextAreaList, { NewItemMode_Blank } from "../EditableTextAreaList";
 import AutoHeightTextArea from "../AutoHeightTextArea";
 
 const RecipeDirectionsList = ({ directions, editable, onUpdate }) => {
@@ -9,30 +9,26 @@ const RecipeDirectionsList = ({ directions, editable, onUpdate }) => {
     : renderReadonly(directions);
 };
 
-const renderEditable = (items, onUpdate) => {
-  return (
-    <EditableTextAreaList
-      items={items}
-      onUpdate={onUpdate}
-      buildNewItem={() => ""}
-      addItemText={"Add step"}
-      renderListItem={
-        (item, idx) => {
-          return (
-            <AutoHeightTextArea
-              value={item}
-              onUpdate={(value) => {
-                items[idx] = value;
-                onUpdate(items);
-              }}
-              classes={["recipe-direction-edit-area"]}
-            />
-          );
-        }
-      }
-    />
-  );
-};
+const renderEditable = (items, onUpdate) => (
+  <EditableTextAreaList
+    items={items}
+    onUpdate={onUpdate}
+    buildNewItem={() => ""}
+    newItemMode={NewItemMode_Blank}
+    addItemText={"Add step"}
+    renderListItem={
+      (item, onUpdate, key) => (
+        <AutoHeightTextArea
+          key={key}
+          placeholder={"Add step..."}
+          value={item}
+          onUpdate={onUpdate}
+          classes={["recipe-direction-edit-area"]}
+        />
+      )
+    }
+  />
+);
 
 const renderReadonly = (directions) => {
   const items = directions.map((direction, idx) => (

@@ -62,10 +62,14 @@ ul.editable-text-area-list {
   margin-right: 0;
 }
 
-.editable-text-area-list-item .hidden-child {
+.editable-text-area-list-item.no-controls .control {
   visibility: hidden;
 }
 
-.editable-text-area-list-item:hover > .hidden-child{
+.editable-text-area-list-item .hover-control {
+  visibility: hidden;
+}
+
+.editable-text-area-list-item:not(.no-controls):hover > .hover-control {
   visibility: visible;
 }

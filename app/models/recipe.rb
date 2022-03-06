@@ -2,6 +2,7 @@ class Recipe < ApplicationRecord
   include Filterable
 
   serialize :tags, Array
+  serialize :notes, Array
 
   scope :filter_by_name, lambda { |name|
     words = name.split(' ')

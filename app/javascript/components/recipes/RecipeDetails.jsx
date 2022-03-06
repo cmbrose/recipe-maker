@@ -4,6 +4,7 @@ import RecipeTag from "./RecipeTag";
 import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
 import TextInput from "../TextInput";
+import EditableTextAreaList, { NewItemMode_Blank }  from "../EditableTextAreaList";
 
 const RecipeDetails = ({
   recipe,
@@ -46,10 +47,13 @@ const renderLeftPane = (recipe, editable, onUpdate) => {
 
 const renderRightPane = (recipe, editable, onUpdate) => {
   return (
-    <div className="recipe-card-directions">
-      <h3>Directions</h3>
-      {renderTimes(recipe, editable, onUpdate)}
-      {renderDirections(recipe.directions, editable, (value) => { recipe.directions = value; onUpdate(recipe); })}
+    <div className="recipe-right-pane">
+      <div className="recipe-card-directions">
+        <h3>Directions</h3>
+        {renderTimes(recipe, editable, onUpdate)}
+        {renderDirections(recipe.directions, editable, (value) => { recipe.directions = value; onUpdate(recipe); })}
+      </div>
+      {renderNotes(recipe.notes, editable, (value) => { recipe.notes = value; onUpdate(recipe); })}
     </div>
   );
 }
@@ -212,6 +216,52 @@ const renderDirections = (directions, editable, onUpdate) => {
       onUpdate={onUpdate}
     />
   );
+}
+
+const renderNotes = (notes, editable, onUpdate) => {
+  var listElement = null;
+
+  if (editable) {
+    listElement = (
+      <EditableTextAreaList
+        items={notes || []}
+        onUpdate={onUpdate}
+        buildNewItem={() => ""}
+        newItemMode={NewItemMode_Blank}
+        renderListItem={
+          (item, onUpdate, key) => (
+            <TextInput
+              key={key}
+              placeholder={"Add note..."}
+              value={item}
+              onUpdate={onUpdate}
+            />
+          )
+        }
+      />
+    );
+  } else if (notes) {
+    const items = notes.map((note, idx) => (
+      <li key={idx}>
+        {note}
+      </li>
+    ));
+  
+    listElement = (
+      <ul>{items}</ul>
+    );
+  }
+
+  if (!listElement) {
+    return;
+  }
+
+  return (
+    <>
+      <h3>Notes</h3>
+      {listElement}
+    </>
+  )
 }
 
 const renderPreviewImageHidden = (previewUrl, defaultUrl, editable, onUpdate) => {

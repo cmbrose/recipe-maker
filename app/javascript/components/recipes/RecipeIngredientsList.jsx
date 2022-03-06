@@ -93,7 +93,6 @@ const renderIngredientsEditable = (groupKey, ingredients, onUpdate) => (
     listItemKeyPrefix={groupKey + "_item_"}
     buildNewItem={() => ""}
     newItemMode={NewItemMode_Blank}
-    addItemText={"Add ingredient"}
     renderListItem={(item, onUpdate, key) => (
       <AutoHeightTextArea
         key={key}

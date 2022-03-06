@@ -62,7 +62,6 @@ jobs:
           DB_USERNAME: ${{ secrets.DEV_DB_ADMIN_USERNAME }}
           DB_PASSWORD: ${{ secrets.DEV_DB_ADMIN_PASSWORD }}
           SECRET_KEY_BASE: ${{ secrets.RAILS_SECRET_KEY_BASE }}
-          DB_CERT_PATH: BaltimoreCyberTrustRoot.crt.pem
           RAILS_ENV: production
         run: |
           sudo apt-get -yqq install libpq-dev

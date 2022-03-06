@@ -27,4 +27,4 @@ production:
   database: recipes
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  sslca: <%= ENV['DB_CERT_PATH'] %>
+  sslcapath: /app/db_ssl

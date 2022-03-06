@@ -24,6 +24,8 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
+            - name: DB_SSL_CA_PATH
+              value: /app/db_ssl
             - name: RAILS_ENV
               value: production
             - name: DB_USERNAME

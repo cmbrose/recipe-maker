@@ -240,7 +240,7 @@ const renderNotes = (notes, editable, onUpdate) => {
         }
       />
     );
-  } else if (notes) {
+  } else if (notes && notes.length > 0) {
     const items = notes.map((note, idx) => (
       <li key={idx}>
         {note}

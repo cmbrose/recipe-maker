@@ -15,7 +15,6 @@ const renderEditable = (items, onUpdate) => (
     onUpdate={onUpdate}
     buildNewItem={() => ""}
     newItemMode={NewItemMode_Blank}
-    addItemText={"Add step"}
     renderListItem={
       (item, onUpdate, key) => (
         <AutoHeightTextArea

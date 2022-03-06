@@ -61,8 +61,8 @@ jobs:
         env:
           DB_USERNAME: ${{ secrets.DEV_DB_ADMIN_USERNAME }}
           DB_PASSWORD: ${{ secrets.DEV_DB_ADMIN_PASSWORD }}
-          DB_SSL_CA: db_ssl
-          DB_SSL_CA_PATH: BaltimoreCyberTrustRoot.crt.pem
+          DB_SSL_CA_PATH: db_ssl
+          DB_SSL_CA: BaltimoreCyberTrustRoot.crt.pem
           SECRET_KEY_BASE: ${{ secrets.RAILS_SECRET_KEY_BASE }}
           RAILS_ENV: production
         run: |

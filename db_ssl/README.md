@@ -1,0 +1,1 @@
+combined.crt.pem is a merged certificate of `BaltimoreCyberTrustRoot` and `DigiCertGlobalRootG2`. See https://learn.microsoft.com/en-us/azure/mysql/single-server/concepts-certificate-rotation#do-i-need-to-make-any-changes-on-my-client-to-maintain-connectivity.

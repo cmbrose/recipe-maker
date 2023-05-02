@@ -27,7 +27,7 @@ spec:
             - name: DB_SSL_CA_PATH
               value: /app/db_ssl
             - name: DB_SSL_CA
-              value: BaltimoreCyberTrustRoot.crt.pem
+              value: combined.crt.pem
             - name: RAILS_ENV
               value: production
             - name: DB_USERNAME

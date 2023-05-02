@@ -1,24 +1,13 @@
-# README
+# Recipe Maker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Rotating secrets
 
-Things you may want to cover:
+### `AZURE_CREDENTIALS`
 
-* Ruby version
+Run this command and paste the entire JSON output into the secret
 
-* System dependencies
+```sh
+az login --use-device-code --tenant 1de76197-8b2f-489c-9a59-d827ba35b2aa
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+az ad sp create-for-rbac --role contributor --name recipes-dev-aks --scopes /subscriptions/bb3afef1-e1ff-4b0e-a8e3-bd3a8e208b43/resourceGroups/recipes-svc-dev --sdk-auth
+```

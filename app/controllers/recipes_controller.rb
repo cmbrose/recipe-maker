@@ -10,6 +10,10 @@ class RecipesController < ApplicationController
 
   def show
     recipe = Recipe.find(params[:id])
+
+    recipe.last_viewed = DateTime.current
+    recipe.save!
+
     render locals: { recipe: recipe }
   end
 
@@ -21,10 +25,10 @@ class RecipesController < ApplicationController
   def index
     query_params =
       if params.has_key?(:query)
-        params_from_query(params[:query])
+        params_from_query(params[:query].strip)
       else
         keys = params.keys.filter do |key|
-          Recipe.fiter_types.include? key.downcase.to_sym
+          Recipe.fiter_types.include? key.downcase.to_sym || key == 'sort'
         end
         params.permit(keys).transform_keys(&:downcase)
       end
@@ -38,6 +42,11 @@ class RecipesController < ApplicationController
       return redirect_to "/recipes/#{recipes.first.id}", locals: { recipe: recipes.first }
     end
 
+    sort_mode = query_params[:sort] || "last_viewed-desc"
+    recipes = recipes.sort_on sort_mode
+    # Only persist the sort in the query if the sort was actually specified
+    used_params[:sort] = query_params[:sort] if query_params[:sort]
+
     query_str = params_to_query(used_params)
     render locals: { recipes: recipes, query: query_str }
   end
@@ -49,6 +58,10 @@ class RecipesController < ApplicationController
 
   def edit
     recipe = Recipe.find(params[:id])
+
+    recipe.last_viewed = DateTime.current
+    recipe.save!
+
     render locals: { recipe: recipe }
   end
 

@@ -1,5 +1,6 @@
 class Recipe < ApplicationRecord
   include Filterable
+  include Sortable
 
   serialize :tags, Array
   serialize :notes, Array
@@ -26,6 +27,10 @@ class Recipe < ApplicationRecord
     end
 
     where '(' + clauses.join(' and ') + ')'
+  }
+
+  scope :sort_on_last_viewed, lambda { ||
+    sort_by :last_viewed
   }
 
   def self.source_kinds(kinds)

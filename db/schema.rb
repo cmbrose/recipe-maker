@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_06_020858) do
+ActiveRecord::Schema.define(version: 2023_05_06_175458) do
 
   create_table "menus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2022_03_06_020858) do
     t.string "source_kind"
     t.text "tags"
     t.string "notes"
+    t.datetime "last_viewed"
   end
 
 end

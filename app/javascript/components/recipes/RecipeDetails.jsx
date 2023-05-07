@@ -97,7 +97,7 @@ const renderTags = (tags, editable, onUpdate) => {
         <TextInput
           onUpdate={setNewTag}
           value={newTag}
-          classes={["col-sm-2", "form-control-sm"]}
+          classes={["col-sm-4 col-lg-2", "form-control-sm"]}
           onReturn={() => {
             if (newTag === '') {
               return;

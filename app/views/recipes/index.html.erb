@@ -4,12 +4,12 @@
     <%= form_tag(recipes_path, method: :get, :class => 'form-horizonal') do %>
       <div class="container">
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-8 col-lg-9">
             <div class="form-group row">
               <%= text_field_tag(:query, query, :class => 'form-control') %>
             </div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-4 col-lg-3">
             <div class="btn-group">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort
@@ -52,5 +52,6 @@
     query = query.replace(/sort:[^ ]+( |$)/i, '');
     query = query + "sort:" + sort + " ";
     $('#query').val(query);
+    $("input[type=submit]").click(); // auto-submit
   });
 </script>

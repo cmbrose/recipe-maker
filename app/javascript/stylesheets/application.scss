@@ -1,3 +1,6 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/bootstrap";
 
 table.dl-table {
@@ -11,4 +14,23 @@ td.dl-table-dt {
 
 td.dl-table-dd {
   text-align: right;
+}
+
+// On mobile, make buttons, forms, etc bigger
+@include media-breakpoint-down(md) {
+  .btn {
+    @include button-size($input-btn-padding-y-lg, $input-btn-padding-x-lg, $font-size-lg, $line-height-lg, $btn-border-radius-lg);
+  }
+
+  .form-control {
+    height: $input-height-lg;
+    padding: $input-padding-y-lg $input-padding-x-lg;
+    font-size: $font-size-lg;
+    line-height: $input-line-height-lg;
+    @include border-radius($input-border-radius-lg);
+  }
+
+  .tags-group {
+    font-size: 24px;
+  }
 }

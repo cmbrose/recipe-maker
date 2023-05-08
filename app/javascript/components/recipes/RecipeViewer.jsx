@@ -65,6 +65,13 @@ const fetchMenus = (setMenus) => {
 const renderAddToMenuModal = (menus, show, handleClose, submit) => {
     const [selectedMenu, setSelectedMenu] = useState(undefined);
 
+    // When the menu list loads in, set the first one as the default
+    useEffect(() => {
+        if (selectedMenu === undefined) {
+            setSelectedMenu(menus[0]);
+        }
+    }, [menus]);
+
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header>

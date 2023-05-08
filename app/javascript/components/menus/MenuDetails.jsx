@@ -72,8 +72,7 @@ const renderRecipeListReadonly = (recipes) => {
       {recipes.map((r) => (
         <div key={`menu-recipe-${r.id}`} className="container">
           <RecipeListItem
-            id={r.id}
-            recipe={r}
+            {...r}
           />
         </div>
       ))}
@@ -89,8 +88,7 @@ const renderRecipeListEditable = (recipes, onUpdate) => {
       renderListItem={(recipe) =>
         <div key={`menu-recipe-${recipe.id}`} className="container">
           <RecipeListItem
-            id={recipe.id}
-            recipe={recipe}
+            {...recipe}
           />
         </div>
       }

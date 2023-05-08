@@ -50,7 +50,9 @@
       <% recipes.each do |recipe| %>
         <%= react_component("recipes/RecipeListItem", { 
           id: recipe.id,
-          recipe: recipe,
+          name: recipe.name,
+          tags: recipe.tags,
+          preview_url: recipe.preview_url,
           default_preview: image_path("unknown.jpg")
         }) %>
       <% end %>

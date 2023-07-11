@@ -34,6 +34,8 @@ class ParseRecipeJob < ApplicationJob
         LoveAndLemons.new(doc)
       when 'yummytoddlerfood.com'
         YummyToddlerFood.new(doc)
+      when 'sallysbakingaddiction.com'
+        SallysBakingAddiction.new(doc)
       when 'kingarthurbaking.com'
         KingArthur.new(doc)
       else

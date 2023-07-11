@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_06_175458) do
+ActiveRecord::Schema.define(version: 2023_07_11_021254) do
 
   create_table "menus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2023_05_06_175458) do
     t.string "source", limit: 1024
     t.string "source_kind"
     t.text "tags"
-    t.string "notes"
+    t.text "notes"
     t.datetime "last_viewed"
   end
 

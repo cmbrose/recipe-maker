@@ -86,6 +86,7 @@ class SallysBakingAddiction
           end
 
           groups << { 'name' => current_group_name, 'ingredients' => ingredients }
+          current_group_name = ''
         end
       end
 

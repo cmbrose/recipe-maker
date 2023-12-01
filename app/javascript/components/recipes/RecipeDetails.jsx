@@ -4,7 +4,7 @@ import RecipeTag from "./RecipeTag";
 import RecipeDirectionsList from "./RecipeDirectionsList";
 import RecipeIngredientsList from "./RecipeIngredientsList";
 import TextInput from "../TextInput";
-import EditableTextAreaList, { NewItemMode_Blank }  from "../EditableTextAreaList";
+import EditableTextAreaList, { NewItemMode_Blank } from "../EditableTextAreaList";
 
 const RecipeDetails = ({
   recipe,
@@ -26,8 +26,8 @@ const RecipeDetails = ({
       <div className="row recipe-card-meta">{renderMetaPanel(recipe, managementButtons, editable, onUpdate)}</div>
 
       <div className="row recipe-body">
-        <div className="col-sm-5 recipe-card-left">{renderLeftPane(recipe, editable, onUpdate)}</div>
-        <div className="col-sm-7 recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
+        <div className="col-md-12 col-lg-5 recipe-card-left">{renderLeftPane(recipe, editable, onUpdate)}</div>
+        <div className="col-md-12 col-lg-7 recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
       </div>
 
       {renderPreviewImageHidden(recipe.preview_url, defaultPreview, editable, (url) => { recipe.preview_url = url; onUpdate(recipe); })}
@@ -97,7 +97,7 @@ const renderTags = (tags, editable, onUpdate) => {
         <TextInput
           onUpdate={setNewTag}
           value={newTag}
-          classes={["col-sm-4 col-lg-2", "form-control-sm"]}
+          classes={["col-md-4 col-lg-2", "form-control-sm"]}
           onReturn={() => {
             if (newTag === '') {
               return;
@@ -246,7 +246,7 @@ const renderNotes = (notes, editable, onUpdate) => {
         {note}
       </li>
     ));
-  
+
     listElement = (
       <ul>{items}</ul>
     );
@@ -301,7 +301,10 @@ const allocateAndShowPreviewImage = () => {
   var leftPane = $(".recipe-card-left");
   var rightPane = $(".recipe-card-right");
 
-  if (leftPane.height() <= rightPane.height()) {
+  if (leftPane.width() == rightPane.width()) {
+    // We are in narrow mode where the panes are actually stacked, so put the image on the left pane so it's on top
+    leftPane.prepend(image);
+  } else if (leftPane.height() <= rightPane.height()) {
     leftPane.prepend(image);
   } else {
     rightPane.prepend(image);

@@ -16,6 +16,9 @@ const RecipeDetails = ({
 }) => {
   useEffect(allocateAndShowPreviewImage);
 
+  // If in edit mode then stack the panes on small screens. Otherwise side-by-side always.
+  const editablePaneWidthClass = editable ? "col-md-12 col-lg-" : "col-sm-";
+
   return (
     <div className="recipe-card">
       <div className="row recipe-card-name">{renderName(recipe.name, editable, (name) => {
@@ -26,12 +29,12 @@ const RecipeDetails = ({
       <div className="row recipe-card-meta">{renderMetaPanel(recipe, managementButtons, editable, onUpdate)}</div>
 
       <div className="row recipe-body">
-        <div className="col-md-12 col-lg-5 recipe-card-left">{renderLeftPane(recipe, editable, onUpdate)}</div>
-        <div className="col-md-12 col-lg-7 recipe-card-right">{renderRightPane(recipe, editable, onUpdate)}</div>
+        <div className={`${editablePaneWidthClass}5 recipe-card-left`}>{renderLeftPane(recipe, editable, onUpdate)}</div>
+        <div className={`${editablePaneWidthClass}7 recipe-card-right`}>{renderRightPane(recipe, editable, onUpdate)}</div>
       </div>
 
       {renderPreviewImageHidden(recipe.preview_url, defaultPreview, editable, (url) => { recipe.preview_url = url; onUpdate(recipe); })}
-    </div>
+    </div >
   );
 }
 

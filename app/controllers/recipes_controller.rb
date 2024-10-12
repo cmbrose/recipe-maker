@@ -52,7 +52,7 @@ class RecipesController < ApplicationController
   end
 
   def new
-    recipe = Recipe.new
+    recipe = Recipe.new(source_kind: 'manual')
     render locals: { recipe: recipe }
   end
 
@@ -93,10 +93,13 @@ class RecipesController < ApplicationController
     redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
   end
 
-  def create_empty
-    recipe = Recipe.create!(source_kind: 'manual', name: 'Empty Recipe')
-
-    redirect_to "/recipes/#{recipe.id}/edit", locals: { recipe: recipe }
+  def create
+    recipe = Recipe.new(recipe_params)
+    if recipe.save
+      redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
+    else
+      render :new, locals: { recipe: recipe }
+    end
   end
 
   def recipe_params

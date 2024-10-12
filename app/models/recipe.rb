@@ -5,6 +5,9 @@ class Recipe < ApplicationRecord
   serialize :tags, Array
   serialize :notes, Array
 
+  validates :name, presence: true
+  validates :source_kind, inclusion: { in: ['manual', 'url'] }
+
   scope :filter_by_name, lambda { |name|
     words = name.split(' ')
     name_query_clauses = words.map do |word|

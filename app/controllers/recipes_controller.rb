@@ -52,7 +52,7 @@ class RecipesController < ApplicationController
   end
 
   def new
-    recipe = Recipe.new
+    recipe = Recipe.new(source_kind: 'manual')
     render locals: { recipe: recipe }
   end
 
@@ -93,10 +93,18 @@ class RecipesController < ApplicationController
     redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
   end
 
-  def create_empty
-    recipe = Recipe.create!(source_kind: 'manual', name: 'Empty Recipe')
-
-    redirect_to "/recipes/#{recipe.id}/edit", locals: { recipe: recipe }
+  def create
+    recipe = Recipe.new(recipe_params)
+    
+    respond_to do |format|
+      if recipe.save
+        format.html { redirect_to "/recipes/#{recipe.id}", notice: 'Recipe was successfully created.' }
+        format.json { render json: recipe, status: :created }
+      else
+        format.html { render :new, locals: { recipe: recipe } }
+        format.json { render json: recipe.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def recipe_params

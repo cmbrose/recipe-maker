@@ -9,30 +9,49 @@ const RecipeEditor = ({
     delete_url,
     show_url,
     default_preview,
+    is_new = false
 }) => {
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
-    const [recipeDetails, setRecipe] = useState({...recipe});
+    const [recipeDetails, setRecipe] = useState(recipe);
+
+    const handleSubmit = () => {
+        $.ajax({
+            url: update_url,
+            type: is_new ? "POST" : "PUT",
+            data: JSON.stringify(recipeDetails),
+            contentType: "application/json",
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json'
+            },
+            success: (data) => {
+                window.location.href = is_new ? `/recipes/${data.id}` : show_url;
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                console.error("Error submitting recipe:", textStatus, errorThrown);
+                console.log('Response:', jqXHR.responseText);
+                // Handle error (e.g., display error message to user)
+            }
+        });
+    };
 
     var managementButtons = [
-        (<button key="submit" type="button" className="btn btn-sm btn-primary mr-1" onClick={() => {
-            $.ajax({
-                url: update_url,
-                type: "PUT",
-                data: JSON.stringify(recipeDetails),
-                contentType: "application/json",
-                dataType: "json",
-                success: () => {
-                    window.location.href = show_url;
-                }
-            });
-        }}>Submit</button>),
+        (<button key="submit" type="button" className="btn btn-sm btn-primary mr-1" onClick={handleSubmit}>
+            {is_new ? "Create" : "Submit"}
+        </button>),
         (<button key="cancel" type="button" className="btn btn-sm btn-secondary mr-1" onClick={() => {
-            window.location.href = show_url;
+            window.location.href = is_new ? "/" : show_url;
         }}>Cancel</button>),
-        (<button key="delete" type="button" className="btn btn-sm btn-danger" onClick={() => setShowConfirmDeleteModal(true)}>
-            Delete</button>),
     ];
+
+    if (!is_new) {
+        managementButtons.push(
+            (<button key="delete" type="button" className="btn btn-sm btn-danger" onClick={() => setShowConfirmDeleteModal(true)}>
+                Delete
+            </button>)
+        );
+    }
 
     return (
         <>
@@ -45,7 +64,7 @@ const RecipeEditor = ({
                     defaultPreview={default_preview}
                 />
             </div>
-            {renderConfirmDeleteModal(showConfirmDeleteModal, () => setShowConfirmDeleteModal(false), () => {
+            {!is_new && renderConfirmDeleteModal(showConfirmDeleteModal, () => setShowConfirmDeleteModal(false), () => {
                 $.ajax({
                     url: delete_url,
                     type: "DELETE",

@@ -3,6 +3,8 @@ import React from "react";
 const TextInput = ({ value, onUpdate, onReturn, classes, ...other }) => {
     classes = classes || [];
 
+    value = value || '';
+
     return <input
         type="text"
         className={["form-control", ...classes].join(' ')}

@@ -78,6 +78,10 @@ const renderMetaPanel = (recipe, buttons, editable, onUpdate) => {
 }
 
 const renderTags = (tags, editable, onUpdate) => {
+  if (!tags) {
+    tags = [];
+  }
+
   const [newTag, setNewTag] = useState('');
 
   if (editable) {

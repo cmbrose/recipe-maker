@@ -13,12 +13,7 @@ const RecipeEditor = ({
 }) => {
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
-    const [recipeDetails, setRecipe] = useState({
-        ...recipe,
-        tags: recipe.tags || [],
-        ingredients: recipe.ingredients || [],
-        directions: recipe.directions || [],
-    });
+    const [recipeDetails, setRecipe] = useState(recipe);
 
     const handleSubmit = () => {
         $.ajax({

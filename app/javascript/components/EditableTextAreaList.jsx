@@ -14,6 +14,8 @@ const EditableTextAreaList = ({
   addItemText = "Add item",
   newItemMode = NewItemMode_Button,
 }) => {
+  items = items || [];
+
   const canAddItems = buildNewItem !== undefined;
 
   listItemKeyPrefix ||= "";
@@ -23,13 +25,14 @@ const EditableTextAreaList = ({
     const key = `${listItemKeyPrefix}-${idx}`;
 
     const onItemUpdate = (value) => {
-      items[idx] = value;
-      onUpdate(items);
+      const newItems = [...items];
+      newItems[idx] = value;
+      onUpdate(newItems);
     };
 
     const onItemDelete = () => {
-      items.splice(idx, 1);
-      onUpdate(items);
+      const newItems = items.filter((_, i) => i !== idx);
+      onUpdate(newItems);
     };
 
     const listItem = renderListItem !== undefined

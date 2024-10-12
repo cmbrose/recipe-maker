@@ -27,11 +27,15 @@ const RecipeEditor = ({
             data: JSON.stringify(recipeDetails),
             contentType: "application/json",
             dataType: "json",
+            headers: {
+                'Accept': 'application/json'
+            },
             success: (data) => {
                 window.location.href = is_new ? `/recipes/${data.id}` : show_url;
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 console.error("Error submitting recipe:", textStatus, errorThrown);
+                console.log('Response:', jqXHR.responseText);
                 // Handle error (e.g., display error message to user)
             }
         });

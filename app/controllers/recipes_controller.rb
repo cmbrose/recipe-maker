@@ -95,10 +95,15 @@ class RecipesController < ApplicationController
 
   def create
     recipe = Recipe.new(recipe_params)
-    if recipe.save
-      redirect_to "/recipes/#{recipe.id}", locals: { recipe: recipe }
-    else
-      render :new, locals: { recipe: recipe }
+    
+    respond_to do |format|
+      if recipe.save
+        format.html { redirect_to "/recipes/#{recipe.id}", notice: 'Recipe was successfully created.' }
+        format.json { render json: recipe, status: :created }
+      else
+        format.html { render :new, locals: { recipe: recipe } }
+        format.json { render json: recipe.errors, status: :unprocessable_entity }
+      end
     end
   end
 

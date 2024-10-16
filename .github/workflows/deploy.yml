@@ -67,7 +67,7 @@ jobs:
           RAILS_ENV: production
         run: |
           sudo apt-get -yqq install libpq-dev
-          gem install bundler
+          gem install bundler -v 2.4.22
           bundle install --jobs 4 --retry 3
           bundle exec rails db:create
           bundle exec rails db:migrate

@@ -20,4 +20,3 @@ production:
   password: <%= ENV['DB_PASSWORD'] %>
   sslca: <%= ENV['DB_SSL_CA_PATH'] %>/<%= ENV['DB_SSL_CA'] %>
   sslcapath: <%= ENV['DB_SSL_CA_PATH'] %>
-  ssl_mode: disabled
